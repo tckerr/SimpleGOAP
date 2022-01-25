@@ -1,4 +1,6 @@
-﻿using PlainGOAP.Engine;
+﻿using System;
+using System.Linq;
+using PlainGOAP.Engine;
 using PlainGOAP.Implementation;
 
 namespace PlainGOAP
@@ -7,52 +9,98 @@ namespace PlainGOAP
     {
         public static void Main()
         {
-            var state = new State<string, object>();
-            state.Set("atStore", false);
-            state.Set("hasFood", false);
-            state.Set("full", false);
+            var currentState = new State<string, object>();
+            currentState.Set("myLocation", "home");
+            currentState.Set("hasFood", false);
+            currentState.Set("full", false);
+            currentState.Set("gasInCar", 100);
 
-            var goal = new State<string, object>();
-            goal.Set("full", true);
-            goal.Set("hasMoney", true);
+            var goalState = new State<string, object>();
+            goalState.Set("full", true);
+            goalState.Set("hasMoney", true);
+            goalState.Set("myLocation", "home");
+            // goalState.Set("gasInCar", 100);
 
             var actions = new IAction<string, object>[]
             {
                 new LambdaAction<string, object>
                 {
-                    Name = "WalkToStore",
+                    Name = "GoToRestaurant",
+                    Prerequisites = new Fact<string, object>[]
+                    {
+                        // new ("gasInCar", 20)
+                    },
+                    Effects = new Fact<string, object>[]
+                    {
+                        new("myLocation", "restaurant"),
+                    }
+                },
+                new LambdaAction<string, object>
+                {
+                    Name = "GoHome",
                     Prerequisites = Array.Empty<Fact<string, object>>(),
-                    Effects = new []{new Fact<string, object>("atStore", true)}
+                    Effects = new Fact<string, object>[]
+                    {
+                        new("myLocation", "home")
+                    }
+                },
+                new LambdaAction<string, object>
+                {
+                    Name = "GoToWork",
+                    Prerequisites = Array.Empty<Fact<string, object>>(),
+                    Effects = new Fact<string, object>[]
+                    {
+                        new("myLocation", "work")
+                    }
                 },
                 new LambdaAction<string, object>
                 {
                     Name = "EarnMoney",
-                    Prerequisites = Array.Empty<Fact<string, object>>(),
-                    Effects = new []{new Fact<string, object>("hasMoney", true)}
+                    Prerequisites = new Fact<string, object>[]
+                    {
+                        new("myLocation", "work")
+                    },
+                    Effects = new Fact<string, object>[]
+                    {
+                        new("hasMoney", true)
+                    }
                 },
                 new LambdaAction<string, object>
                 {
-                    Name = "BuyFood",
-                    Prerequisites = new []
+                    Name = "OrderFood",
+                    Prerequisites = new Fact<string, object>[]
                     {
-                        new Fact<string, object>("atStore", true),
-                        new Fact<string, object>("hasMoney", true)
+                        new("myLocation", "restaurant"),
+                        new("hasMoney", true)
                     },
-                    Effects = new []
+                    Effects = new Fact<string, object>[]
                     {
-                        new Fact<string, object>("hasFood", true),
-                        new Fact<string, object>("hasMoney", false),
+                        new("hasFood", true),
+                        new("hasMoney", false),
                     }
                 },
                 new LambdaAction<string, object>
                 {
                     Name = "Eat",
-                    Prerequisites = new []{new Fact<string, object>("hasFood", true)},
-                    Effects = new []{new Fact<string, object>("full", true)}
+                    Prerequisites = new Fact<string, object>[]
+                    {
+                        new ("hasFood", true),
+                        new ("myLocation", "restaurant")
+                    },
+                    Effects = new Fact<string, object> []
+                    {
+                        new("full", true),
+                        new("hasFood", false)
+                    }
                 }
             };
 
+            var planner = new Planner<string, object>(actions, currentState);
+            var plan = planner.FindPlan(goalState).ToArray();
 
+            Console.WriteLine("Plan complete");
+            foreach (var action in plan)
+                Console.WriteLine(action?.Name ?? "null");
         }
     }
 }

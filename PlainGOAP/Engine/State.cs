@@ -1,6 +1,10 @@
-﻿namespace PlainGOAP.Engine
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PlainGOAP.Engine
 {
-    public class Fact<TKey, TVal>
+    public struct Fact<TKey, TVal>
     {
         public TKey Key;
         public TVal Value;
@@ -19,6 +23,10 @@
         public void Set(TKey key, TVal val)
         {
             facts[key] = val;
+        }
+        public void Set(Fact<TKey, TVal> fact)
+        {
+            facts[fact.Key] = fact.Value;
         }
 
         public TVal Get(TKey key) => Get<TVal>(key);
@@ -41,6 +49,17 @@
         public bool Check(TKey key, TVal val)
         {
             return facts.TryGetValue(key, out var v) && v.Equals(val);
+        }
+
+        public State<TKey,TVal> CopyAddAction(IAction<TKey,TVal> action)
+        {
+            var state = new State<TKey, TVal>();
+            foreach (var fact in ListFacts())
+                state.Set(fact);
+
+            action.Impact(state);
+
+            return state;
         }
     }
 }
