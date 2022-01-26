@@ -17,14 +17,18 @@ namespace PlainGOAP.Tests.Data.Traveler
             const int WAGE = 20;
 
             var currentState = new KeyValueState<string, object>();
-            currentState.Set("myLocation", "Home");
-            currentState.Set("food", 0);
-            currentState.Set("full", false);
-            currentState.Set("money", 0);
-            currentState.Set("gas", 40);
-            currentState.Set("fun", 0);
-            currentState.Set("fatigue", 0);
-            currentState.Set("toy", 0);
+            currentState.Set(new (string, object)[]
+            {
+                ("myLocation", "Home"),
+                ("food", 0),
+                ("full", false),
+                ("money", 0),
+                ("gas", 40),
+                ("fun", 0),
+                ("fatigue", 0),
+                ("toy", 0),
+            });
+
 
             var locations = new List<(string, int, int)>
             {
@@ -56,7 +60,7 @@ namespace PlainGOAP.Tests.Data.Traveler
                 new[]
                 {
                     state.Check("full", true) ? 0 : 1,
-                    state.Check("myLocation", "Home") ? 0 : 1,
+                    // state.Check("myLocation", "Home") ? 0 : 1,
                     state.Get<int>("fun") >= 2 ? 0 : 1,
                     state.Get<int>("fatigue") <= 0 ? 0 : 1,
                 }.Sum();
