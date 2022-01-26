@@ -4,7 +4,7 @@
 
 Our goal is to cook 5 Baked Potatoes. We start with 0. Here are the actions we can take:
 
-1. Harvest potato +1 raw potato)
+1. Harvest potato (+1 raw potato)
 2. Chop wood (+1 wood)
 3. Make fire (-3 wood, fire = true)
 4. Cook potato (-1 raw potato, +1 baked potato)
@@ -59,7 +59,7 @@ public class PotatoStateEqualityComparer : IEqualityComparer<PotatoState>
 ```
 
 ### Setting the goal
-Next, let's define a function that will tell the engine whether we have reached out goal:
+Next, let's define a function that will tell the engine whether we have reached our goal:
 
 ```c#
 Func<PotatoState, bool> goalEvaluator = (state) => state.BakedPotatoes >= 5;
