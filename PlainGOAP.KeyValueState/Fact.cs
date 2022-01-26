@@ -2,8 +2,14 @@
 {
     public class Fact<TKey, TVal>
     {
-        public TKey Key;
-        public TVal Value;
+        public readonly TKey Key;
+        public readonly TVal Value;
+
+        public Fact(TKey key, TVal value)
+        {
+            Key = key;
+            Value = value;
+        }
 
         public override int GetHashCode()
         {
@@ -14,12 +20,6 @@
                 hash = hash * 23 + Value.GetHashCode();
                 return hash;
             }
-        }
-
-        public Fact(TKey key, TVal value)
-        {
-            Key = key;
-            Value = value;
         }
     }
 }

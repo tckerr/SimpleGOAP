@@ -1,44 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PlainGOAP.KeyValueState
 {
     public class KeyValueState<TKey, TVal>
     {
-        private readonly Dictionary<TKey, TVal> facts = new();
+        public List<Fact<TKey, TVal>> Facts { get; } = new();
+        private readonly Dictionary<TKey, int> indices = new();
 
         public void Set(TKey key, TVal val)
         {
-            facts[key] = val;
-            Facts = facts.Select(f => new Fact<TKey, TVal>(f.Key, f.Value)).ToArray();
+            if (!indices.TryGetValue(key, out var idx))
+            {
+                indices[key] = indices.Count;
+                Facts.Add(new Fact<TKey, TVal>(key, val));
+            }
+            else
+                Facts[idx] = new Fact<TKey, TVal>(key, val);
         }
 
-        public void Set<T>(TKey key, Func<T, T> setter) where T : TVal
-        {
-            Set(key, setter((T)facts[key]));
-        }
-
-        public void Set(Fact<TKey, TVal> fact)
-        {
-            Set(fact.Key, fact.Value);
-        }
+        public void Set<T>(TKey key, Func<T, T> setter) where T : TVal => Set(key, setter((T)Facts[indices[key]].Value));
+        public void Set(Fact<TKey, TVal> fact) => Set(fact.Key, fact.Value);
 
         public T2 Get<T2>(TKey key) where T2 : TVal
         {
-            if (!facts.TryGetValue(key, out var val))
+            if (!indices.TryGetValue(key, out var idx))
                 throw new Exception($"Fact key '{key}' not registered");
-            if (!(val is T2 tval))
+            var val = Facts[idx].Value;
+            if (val is not T2 tval)
                 throw new Exception($"Fact of type {val.GetType().FullName} is not type {typeof(T2).FullName}");
             return tval;
         }
 
-        public Fact<TKey, TVal>[] Facts { get; private set; } = Array.Empty<Fact<TKey, TVal>>();
-
         public bool Check(Fact<TKey, TVal> fact) => Check(fact.Key, fact.Value);
-        public bool Check(TKey key, TVal val)
-        {
-            return facts.TryGetValue(key, out var v) && v.Equals(val);
-        }
+        public bool Check(TKey key, TVal val) => indices.TryGetValue(key, out var idx) && Facts[idx].Value.Equals(val);
     }
 }

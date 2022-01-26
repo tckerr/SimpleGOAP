@@ -17,10 +17,10 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             this.locations = locations;
         }
 
-        public string GetName(KeyValueState<string, object> state) => $"Drive to {location}, using {GetGasCost(state)} gas. {state.Get<int>("gas")-GetGasCost(state)} left";
+        public string GetName(KeyValueState<string, object> state) => $"Drive to {location}, using {GasSpentForDistance(state)} gas. {state.Get<int>("gas")-GasSpentForDistance(state)} left";
         public int ActionCost => 10;
 
-        private int GetGasCost(KeyValueState<string, object> state)
+        private int GasSpentForDistance(KeyValueState<string, object> state)
         {
             var currentLocation = state.Get<string>("myLocation");
             var (_, currentX, currentY) = locations.First(l => l.Item1 == currentLocation);
@@ -31,12 +31,12 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
 
         public bool CheckPreconditions(KeyValueState<string, object> state)
         {
-            return state.Get<int>("gas") >= GetGasCost(state);
+            return state.Get<int>("gas") >= GasSpentForDistance(state);
         }
 
         public KeyValueState<string, object> TakeActionOnState(KeyValueState<string, object> state)
         {
-            var gasCost = GetGasCost(state);
+            var gasCost = GasSpentForDistance(state);
             state.Set("gas", state.Get<int>("gas") - gasCost);
             state.Set("myLocation", location);
             return state;
