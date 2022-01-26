@@ -1,41 +1,27 @@
-﻿using System.Text;
+﻿using System.Linq;
+using Priority_Queue;
 
 namespace PlainGOAP
 {
-    public class StateNode<TKey, TVal>
+    public class StateNode<TKey, TVal> : StablePriorityQueueNode
     {
-        public IAction<TKey, TVal> CameFrom;
+        public IAction<TKey, TVal> SourceAction;
+        public StateNode<TKey, TVal> Parent;
         public State<TKey, TVal> State;
+        public int GCost;
 
-        public StateNode(State<TKey, TVal> state, IAction<TKey, TVal> cameFrom)
+        public StateNode(State<TKey, TVal> state, StateNode<TKey, TVal> parent, IAction<TKey, TVal> sourceAction)
         {
-            CameFrom = cameFrom;
+            SourceAction = sourceAction;
+            Parent = parent;
             State = state;
+            GCost = (parent?.GCost ?? 0) + 1;
         }
 
-        public int Cost => CameFrom?.ActionCost ?? 0;
+        public int ActionCost => SourceAction?.ActionCost ?? 0;
 
-        public bool IsComplete(State<TKey, TVal> worldState)
-        {
-            foreach (var fact in worldState.ListFacts())
-            {
-                if (!State.Check(fact))
-                    return false;
-            }
-            return true;
-        }
+        public bool IsComplete(State<TKey, TVal> worldState) => worldState.ListFacts().All(fact => State.Check(fact));
 
-        public string GetHash()
-        {
-            var str = new StringBuilder();
-            foreach (var fact in State.ListFacts())
-            {
-                str.Append(fact.Key);
-                str.Append("|");
-                str.Append(fact.Value);
-                str.Append(",");
-            }
-            return str.ToString();
-        }
+        public int GetHash() => ArrayComparer.GetHashCode(State.ListFacts());
     }
 }

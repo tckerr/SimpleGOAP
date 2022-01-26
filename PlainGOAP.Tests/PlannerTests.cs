@@ -19,16 +19,17 @@ namespace PlainGOAP.Tests
         public void TestTravelerData()
         {
             var data = TravelerDataFactory.Create();
+            var subject = new AStarSearch<string, object>(
+                new FactCountHeuristic<string, object>());
+
             var start = DateTime.Now;
-
-            var plan = AStarSearch.FindPath(data).ToArray();
-
+            var plan = subject.FindPath(data).ToArray();
             testOutputHelper.WriteLine($"Plan complete after {(DateTime.Now - start).TotalMilliseconds}ms");
 
             for (var i = 1; i < plan.Length; i++)
             {
                 var state = plan[i];
-                testOutputHelper.WriteLine(state.CameFrom?.GetName(plan[i-1].State) ?? "null");
+                testOutputHelper.WriteLine(state.SourceAction?.GetName(plan[i-1].State) ?? "null");
             }
         }
     }

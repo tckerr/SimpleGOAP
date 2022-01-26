@@ -96,3 +96,4 @@ C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\PlainGOAP.Tests.dll
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\PlainGOAP.Tests.pdb
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\PlainGOAP.Tests.genruntimeconfig.cache
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\PriorityQueue.dll

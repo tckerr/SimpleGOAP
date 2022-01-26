@@ -6,19 +6,23 @@ namespace PlainGOAP
 {
     public class State<TKey, TVal>
     {
-        private readonly Dictionary<TKey, TVal> facts = new Dictionary<TKey, TVal>();
+        private readonly Dictionary<TKey, TVal> facts = new();
+        private Fact<TKey, TVal>[] factList = Array.Empty<Fact<TKey, TVal>>();
 
         public void Set(TKey key, TVal val)
         {
             facts[key] = val;
+            factList = facts.Select(f => new Fact<TKey, TVal>(f.Key, f.Value)).ToArray();
         }
+
         public void Set<T>(TKey key, Func<T, T> setter) where T : TVal
         {
-            facts[key] = setter((T)facts[key]);
+            Set(key, setter((T)facts[key]));
         }
+
         public void Set(Fact<TKey, TVal> fact)
         {
-            facts[fact.Key] = fact.Value;
+            Set(fact.Key, fact.Value);
         }
 
         public TVal Get(TKey key) => Get<TVal>(key);
@@ -32,10 +36,7 @@ namespace PlainGOAP
             return tval;
         }
 
-        public IEnumerable<Fact<TKey, TVal>> ListFacts()
-        {
-            return facts.Select(f => new Fact<TKey, TVal>(f.Key, f.Value));
-        }
+        public Fact<TKey, TVal>[] ListFacts() => factList;
 
         public bool Check(Fact<TKey, TVal> fact) => Check(fact.Key, fact.Value);
         public bool Check(TKey key, TVal val)
