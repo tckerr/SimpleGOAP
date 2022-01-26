@@ -2,7 +2,7 @@
 {
     public interface IAction<T>
     {
-        string GetName(T state);
+        string Title { get; }
         int ActionCost { get; }
         bool CheckPreconditions(T state);
         T TakeActionOnState(T state);

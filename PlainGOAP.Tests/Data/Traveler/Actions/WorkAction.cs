@@ -13,7 +13,7 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             this.amountEarned = amountEarned;
         }
 
-        public string GetName(KeyValueState<string, object> state) => $"Earn ${amountEarned} at {workLocation}";
+        public string Title => $"Earn ${amountEarned} at {workLocation}";
         public int ActionCost => 10;
 
         public bool CheckPreconditions(KeyValueState<string, object> state)

@@ -17,7 +17,7 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             this.locations = locations;
         }
 
-        public string GetName(KeyValueState<string, object> state) => $"Drive to {location}, using {GasSpentForDistance(state)} gas. {state.Get<int>("gas")-GasSpentForDistance(state)} left";
+        public string Title => $"Drive to {location}";
         public int ActionCost => 10;
 
         private int GasSpentForDistance(KeyValueState<string, object> state)

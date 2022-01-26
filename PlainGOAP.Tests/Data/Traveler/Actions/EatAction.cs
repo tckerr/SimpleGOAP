@@ -4,7 +4,7 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
     public class EatAction : IAction<KeyValueState<string, object>>
     {
-        public string GetName(KeyValueState<string, object> state) => "Eat";
+        public string Title => $"Eat food";
         public int ActionCost => 10;
         public bool CheckPreconditions(KeyValueState<string, object> state)
         {

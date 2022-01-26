@@ -7,12 +7,12 @@ namespace PlainGOAP
 {
     public class Planner<T>
     {
-        private readonly IStateMutator<T> stateMutator;
+        private readonly IStateCopier<T> stateCopier;
         private readonly IEqualityComparer<T> stateComparer;
 
-        public Planner(IStateMutator<T> stateMutator, IEqualityComparer<T> stateComparer)
+        public Planner(IStateCopier<T> stateCopier, IEqualityComparer<T> stateComparer)
         {
-            this.stateMutator = stateMutator;
+            this.stateCopier = stateCopier;
             this.stateComparer = stateComparer;
         }
 
@@ -91,7 +91,7 @@ namespace PlainGOAP
 
             foreach (var action in actions.Where(a => a.CheckPreconditions(currentState)))
             {
-                var newState = stateMutator.CopyAndMutate(currentState, action);
+                var newState = action.TakeActionOnState(stateCopier.Copy(currentState));
 
                 if(stateComparer.Equals(currentState, newState))
                     continue;

@@ -13,10 +13,7 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             this.amountPerItem = amountPerItem;
         }
 
-        public string GetName(KeyValueState<string, object> state)
-        {
-            return $"Sell 1 {itemName} for ${amountPerItem} on eBay";
-        }
+        public string Title => $"Sell 1 {itemName} for ${amountPerItem} on eBay";
 
         public int ActionCost => 10;
         public bool CheckPreconditions(KeyValueState<string, object> state)

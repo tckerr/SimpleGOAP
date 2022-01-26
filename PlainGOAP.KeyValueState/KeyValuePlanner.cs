@@ -2,7 +2,7 @@
 {
     public class KeyValuePlanner : Planner<KeyValueState<string, object>>
     {
-        public KeyValuePlanner() : base(new KeyValueStateMutator<string, object>(), new KeyValueStateComparer<string, object>())
+        public KeyValuePlanner() : base(new KeyValueStateCopier<string, object>(), new KeyValueStateComparer<string, object>())
         {
         }
     }
