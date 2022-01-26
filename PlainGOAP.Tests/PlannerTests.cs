@@ -19,8 +19,7 @@ namespace PlainGOAP.Tests
         public void TestTravelerData()
         {
             var data = TravelerDataFactory.Create();
-            var subject = new AStarSearch<string, object>(
-                new FactCountHeuristic<string, object>());
+            var subject = new AStarSearch<string, object>();
 
             var start = DateTime.Now;
             var plan = subject.FindPath(data, int.MaxValue).ToArray();

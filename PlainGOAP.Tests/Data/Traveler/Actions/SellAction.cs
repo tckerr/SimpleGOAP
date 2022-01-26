@@ -22,7 +22,7 @@
             return state.Get<int>(itemName) > 0 && state.Check("myLocation", "Home");
         }
 
-        public void Impact(State<string, object> state)
+        public void TakeActionOnState(State<string, object> state)
         {
             state.Set<int>(itemName, f => f - 1);
             state.Set<int>("money", m => m + amountPerItem);

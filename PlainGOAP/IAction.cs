@@ -2,9 +2,9 @@
 {
     public interface IAction<TKey, TVal>
     {
-        string GetName(State<TKey,TVal> state);
+        string GetName(IState<TKey,TVal> state);
         int ActionCost { get; }
-        bool CheckPreconditions(State<TKey,TVal> state);
-        void Impact(State<TKey,TVal> state);
+        bool CheckPreconditions(IState<TKey,TVal> state);
+        void TakeActionOnState(IState<TKey,TVal> state);
     }
 }

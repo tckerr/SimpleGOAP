@@ -9,7 +9,7 @@
             return state.Check("myLocation", "Restaurant") && state.Get<int>("food") > 0;
         }
 
-        public void Impact(State<string, object> state)
+        public void TakeActionOnState(State<string, object> state)
         {
             state.Set<int>("food", f => f - 1);
             state.Set("full", true);

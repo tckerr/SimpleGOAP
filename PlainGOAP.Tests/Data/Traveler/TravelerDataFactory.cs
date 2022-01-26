@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using PlainGOAP.Tests.Data.Traveler.Actions;
 
 namespace PlainGOAP.Tests.Data.Traveler
@@ -23,12 +24,6 @@ namespace PlainGOAP.Tests.Data.Traveler
             currentState.Set("fun", 0);
             currentState.Set("fatigue", 0);
             currentState.Set("toy", 0);
-
-            var goalState = new State<string, object>();
-            goalState.Set("full", true);
-            goalState.Set("fun", 2);
-            goalState.Set("myLocation", "Home");
-            goalState.Set("fatigue", 0);
 
             var locations = new List<(string, int, int)>
             {
@@ -56,11 +51,21 @@ namespace PlainGOAP.Tests.Data.Traveler
                 new EatAction()
             };
 
+            int HeuristicCost(State<string, object> state) =>
+                new[]
+                {
+                    state.Check("full", true) ? 0 : 1,
+                    state.Check("myLocation", "Home") ? 0 : 1,
+                    state.Get<int>("fun") >= 2 ? 0 : 1,
+                    state.Get<int>("fatigue") <= 0 ? 0 : 1,
+                }.Sum();
+
             return new SearchParameters<string, object>
             {
                 Actions = actions,
                 StartingState = currentState,
-                GoalState = goalState
+                HeuristicCost = HeuristicCost,
+                GoalEvaluator = s => HeuristicCost(s) <= 0,
             };
         }
     }

@@ -33,7 +33,7 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             return state.Get<int>("gas") >= GetGasCost(state);
         }
 
-        public void Impact(State<string, object> state)
+        public void TakeActionOnState(State<string, object> state)
         {
             var gasCost = GetGasCost(state);
             state.Set("gas", state.Get<int>("gas") - gasCost);

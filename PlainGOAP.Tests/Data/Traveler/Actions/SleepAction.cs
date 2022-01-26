@@ -10,7 +10,7 @@
             return state.Check("myLocation", "Home") && state.Get<int>("fatigue") > 0;
         }
 
-        public void Impact(State<string, object> state)
+        public void TakeActionOnState(State<string, object> state)
         {
             state.Set("fatigue", 0);
         }

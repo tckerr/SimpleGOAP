@@ -7,30 +7,26 @@ namespace PlainGOAP
 {
     public class AStarSearch<TKey, TVal>
     {
-        private readonly IHeuristicStrategy<TKey, TVal> heuristicStrategy;
-
-        public AStarSearch(IHeuristicStrategy<TKey, TVal> heuristicStrategy)
-        {
-            this.heuristicStrategy = heuristicStrategy;
-        }
-
         public IEnumerable<StateNode<TKey, TVal>> FindPath(SearchParameters<TKey, TVal> @params,
             int maxIterations = 10000)
         {
+            var heuristicCost = @params.HeuristicCost;
+            var evalGoal = @params.GoalEvaluator;
             var start = new StateNode<TKey, TVal>(@params.StartingState, null, null);
             var openSet = new FastPriorityQueue<StateNode<TKey, TVal>>(99999);
             openSet.Enqueue(start, 0);
 
-            var distanceScores = new DefaultDict<int, int>(int.MaxValue);
-
-            distanceScores[start.GetHash()] = 0;
+            var distanceScores = new DefaultDict<int, int>(int.MaxValue)
+            {
+                [start.GetHash()] = 0
+            };
 
             var iterations = 0;
 
             while (openSet.Any() && ++iterations < maxIterations)
             {
                 var current = openSet.Dequeue();
-                if (current.IsComplete(@params.GoalState))
+                if (evalGoal(current.State))
                 {
                     // Console.WriteLine($"Path found after {iterations} iterations");
                     return ReconstructPath(current);
@@ -51,7 +47,7 @@ namespace PlainGOAP
 
                     // Console.WriteLine($"[{iterations}] Validated path {PrintPath(neighbor, cameFrom)} was cheaper... adding node and registering scores. ");
                     distanceScores[neighbor.GetHash()] = distScore;
-                    var finalScore = distScore + heuristicStrategy.Calculate(neighbor, @params.GoalState);
+                    var finalScore = distScore + heuristicCost(neighbor.State);
                     if (!openSet.Contains(neighbor))
                         openSet.Enqueue(neighbor, finalScore);
                 }

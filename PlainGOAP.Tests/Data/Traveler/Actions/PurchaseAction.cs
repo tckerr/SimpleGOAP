@@ -29,7 +29,7 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
                    && (max == null || state.Get<int>(itemName) < max);
         }
 
-        public void Impact(State<string, object> state)
+        public void TakeActionOnState(State<string, object> state)
         {
             state.Set(itemName, Math.Min(max ?? int.MaxValue, state.Get<int>(itemName) + amountPerPurchase));
             state.Set("money", state.Get<int>("money") - cost);

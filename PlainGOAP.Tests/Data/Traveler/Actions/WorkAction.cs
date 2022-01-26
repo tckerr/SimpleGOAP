@@ -19,7 +19,7 @@
             return state.Check("myLocation", workLocation) && state.Get<int>("fatigue") < 3;
         }
 
-        public void Impact(State<string, object> state)
+        public void TakeActionOnState(State<string, object> state)
         {
             state.Set("money", state.Get<int>("money") + amountEarned);
             state.Set<int>("fatigue", f => f + 1);

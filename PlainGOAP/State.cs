@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PlainGOAP
 {
-    public class State<TKey, TVal>
+    public class State<TKey, TVal> : IState<TKey, TVal>
     {
         private readonly Dictionary<TKey, TVal> facts = new();
         private Fact<TKey, TVal>[] factList = Array.Empty<Fact<TKey, TVal>>();
@@ -24,8 +24,6 @@ namespace PlainGOAP
         {
             Set(fact.Key, fact.Value);
         }
-
-        public TVal Get(TKey key) => Get<TVal>(key);
 
         public T Get<T>(TKey key) where T : TVal
         {
@@ -50,9 +48,11 @@ namespace PlainGOAP
             foreach (var fact in ListFacts())
                 state.Set(fact);
 
-            action.Impact(state);
+            action.TakeActionOnState(state);
 
             return state;
         }
+
+        public int GetUniqueHash() => ArrayComparer.GetHashCode(ListFacts());
     }
 }

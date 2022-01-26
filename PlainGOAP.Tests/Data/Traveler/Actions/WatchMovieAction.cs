@@ -10,7 +10,7 @@
             return state.Check("myLocation", "Theater") && state.Get<int>("money") >= 20;
         }
 
-        public void Impact(State<string, object> state)
+        public void TakeActionOnState(State<string, object> state)
         {
             state.Set("money", state.Get<int>("money") - 20);
             state.Set("fun", state.Get<int>("fun") + 1);
