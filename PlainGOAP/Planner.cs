@@ -5,15 +5,24 @@ using Priority_Queue;
 
 namespace PlainGOAP
 {
-    public class AStarSearch<TKey, TVal>
+    public class Planner<T> where T: IState
     {
-        public IEnumerable<StateNode<TKey, TVal>> FindPath(SearchParameters<TKey, TVal> @params,
+        private readonly IStateCopier<T> stateCopier;
+        private readonly IEqualityComparer<T> stateComparer;
+
+        public Planner(IStateCopier<T> stateCopier, IEqualityComparer<T> stateComparer)
+        {
+            this.stateCopier = stateCopier;
+            this.stateComparer = stateComparer;
+        }
+
+        public IEnumerable<StateNode<T>> Execute(SearchParameters<T> @params,
             int maxIterations = 10000)
         {
             var heuristicCost = @params.HeuristicCost;
             var evalGoal = @params.GoalEvaluator;
-            var start = new StateNode<TKey, TVal>(@params.StartingState, null, null);
-            var openSet = new FastPriorityQueue<StateNode<TKey, TVal>>(99999);
+            var start = new StateNode<T>(@params.StartingState, null, null);
+            var openSet = new FastPriorityQueue<StateNode<T>>(99999);
             openSet.Enqueue(start, 0);
 
             var distanceScores = new DefaultDict<int, int>(int.MaxValue)
@@ -56,9 +65,9 @@ namespace PlainGOAP
             throw new Exception($"No path found, iterations: {iterations}");
         }
 
-        private IEnumerable<StateNode<TKey, TVal>> ReconstructPath(StateNode<TKey, TVal> current)
+        private IEnumerable<StateNode<T>> ReconstructPath(StateNode<T> current)
         {
-            var path = new List<StateNode<TKey, TVal>> { current };
+            var path = new List<StateNode<T>> { current };
             while (current.Parent != null)
             {
                 current = current.Parent;
@@ -67,28 +76,28 @@ namespace PlainGOAP
             return path;
         }
 
-        private IEnumerable<StateNode<TKey, TVal>> GetNeighbors(StateNode<TKey, TVal> start,
-            IEnumerable<IAction<TKey, TVal>> actions)
+        private IEnumerable<StateNode<T>> GetNeighbors(StateNode<T> start,
+            IEnumerable<IAction<T>> actions)
         {
-            var result = new List<StateNode<TKey, TVal>>();
+            var result = new List<StateNode<T>>();
             var currentState = start.State;
 
             foreach (var action in actions.Where(a => a.CheckPreconditions(currentState)))
             {
-                var newState = currentState.CopyAddAction(action);
+                var newState = stateCopier.CopyWithAddedAction(currentState, action);
 
-                if (newState.ListFacts().All(f => currentState.Check(f)))
+                if(newState.GetUniqueHashForState() == currentState.GetUniqueHashForState())
                     continue;
 
-                var node = new StateNode<TKey, TVal>(newState, start, action);
+                var node = new StateNode<T>(newState, start, action);
                 result.Add(node);
             }
 
             return result;
         }
 
-        private string PrintPath(StateNode<TKey, TVal> node,
-            IReadOnlyDictionary<StateNode<TKey, TVal>, StateNode<TKey, TVal>> cameFrom)
+        private string PrintPath(StateNode<T> node,
+            IReadOnlyDictionary<StateNode<T>, StateNode<T>> cameFrom)
         {
             var str = "";
             while (true)

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using PlainGOAP.StateManagement;
 using PlainGOAP.Tests.Data.Traveler.Actions;
 
 namespace PlainGOAP.Tests.Data.Traveler
 {
     public static class TravelerDataFactory
     {
-        public static SearchParameters<string, object> Create()
+        public static SearchParameters<KeyValueState<string, object>> Create()
         {
             const int COST_OF_TOY = 10;
             const int SELL_VALUE_OF_TOY = 40;
@@ -15,7 +16,7 @@ namespace PlainGOAP.Tests.Data.Traveler
             const int GAS_TANK_CAPACITY = 40;
             const int WAGE = 20;
 
-            var currentState = new State<string, object>();
+            var currentState = new KeyValueState<string, object>();
             currentState.Set("myLocation", "Home");
             currentState.Set("food", 0);
             currentState.Set("full", false);
@@ -34,7 +35,7 @@ namespace PlainGOAP.Tests.Data.Traveler
                 ("Theater", 2, 0),
             };
 
-            var actions = new IAction<string, object>[]
+            var actions = new IAction<KeyValueState<string, object>>[]
             {
                 new DriveAction("Restaurant", locations),
                 new DriveAction("Work", locations),
@@ -51,7 +52,7 @@ namespace PlainGOAP.Tests.Data.Traveler
                 new EatAction()
             };
 
-            int HeuristicCost(State<string, object> state) =>
+            int HeuristicCost(KeyValueState<string, object> state) =>
                 new[]
                 {
                     state.Check("full", true) ? 0 : 1,
@@ -60,7 +61,7 @@ namespace PlainGOAP.Tests.Data.Traveler
                     state.Get<int>("fatigue") <= 0 ? 0 : 1,
                 }.Sum();
 
-            return new SearchParameters<string, object>
+            return new SearchParameters<KeyValueState<string, object>>
             {
                 Actions = actions,
                 StartingState = currentState,

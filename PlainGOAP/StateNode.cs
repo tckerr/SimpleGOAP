@@ -2,14 +2,14 @@
 
 namespace PlainGOAP
 {
-    public class StateNode<TKey, TVal> : StablePriorityQueueNode
+    public class StateNode<T> : StablePriorityQueueNode where T : IState
     {
-        public IAction<TKey, TVal> SourceAction;
-        public StateNode<TKey, TVal> Parent;
-        public IState<TKey, TVal> State;
+        public IAction<T> SourceAction;
+        public StateNode<T> Parent;
+        public T State;
         public int GCost;
 
-        public StateNode(IState<TKey, TVal> state, StateNode<TKey, TVal> parent, IAction<TKey, TVal> sourceAction)
+        public StateNode(T state, StateNode<T> parent, IAction<T> sourceAction)
         {
             SourceAction = sourceAction;
             Parent = parent;
@@ -19,6 +19,6 @@ namespace PlainGOAP
 
         public int ActionCost => SourceAction?.ActionCost ?? 0;
 
-        public int GetHash() => State.GetUniqueHash();
+        public int GetHash() => State.GetUniqueHashForState();
     }
 }

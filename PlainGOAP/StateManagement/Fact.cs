@@ -1,4 +1,4 @@
-﻿namespace PlainGOAP
+﻿namespace PlainGOAP.StateManagement
 {
     public class Fact<TKey, TVal>
     {

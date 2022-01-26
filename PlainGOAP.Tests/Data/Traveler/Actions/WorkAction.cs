@@ -1,6 +1,8 @@
-﻿namespace PlainGOAP.Tests.Data.Traveler.Actions
+﻿using PlainGOAP.StateManagement;
+
+namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
-    public class WorkAction : IAction<string, object>
+    public class WorkAction : IAction<KeyValueState<string, object>>
     {
         private readonly string workLocation;
         private readonly int amountEarned;
@@ -11,15 +13,15 @@
             this.amountEarned = amountEarned;
         }
 
-        public string GetName(State<string, object> state) => $"Earn ${amountEarned} at {workLocation}";
+        public string GetName(KeyValueState<string, object> state) => $"Earn ${amountEarned} at {workLocation}";
         public int ActionCost => 10;
 
-        public bool CheckPreconditions(State<string, object> state)
+        public bool CheckPreconditions(KeyValueState<string, object> state)
         {
             return state.Check("myLocation", workLocation) && state.Get<int>("fatigue") < 3;
         }
 
-        public void TakeActionOnState(State<string, object> state)
+        public void TakeActionOnState(KeyValueState<string, object> state)
         {
             state.Set("money", state.Get<int>("money") + amountEarned);
             state.Set<int>("fatigue", f => f + 1);

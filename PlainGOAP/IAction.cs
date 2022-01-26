@@ -1,10 +1,10 @@
 ﻿namespace PlainGOAP
 {
-    public interface IAction<TKey, TVal>
+    public interface IAction<in T> where T : IState
     {
-        string GetName(IState<TKey,TVal> state);
+        string GetName(T state);
         int ActionCost { get; }
-        bool CheckPreconditions(IState<TKey,TVal> state);
-        void TakeActionOnState(IState<TKey,TVal> state);
+        bool CheckPreconditions(T state);
+        void TakeActionOnState(T state);
     }
 }

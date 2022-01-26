@@ -1,8 +1,9 @@
 ﻿using System;
+using PlainGOAP.StateManagement;
 
 namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
-    public class PurchaseAction : IAction<string, object>
+    public class PurchaseAction : IAction<KeyValueState<string, object>>
     {
         private readonly string itemName;
         private readonly string storeName;
@@ -19,17 +20,17 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             this.amountPerPurchase = amountPerPurchase;
         }
 
-        public string GetName(State<string, object> state) => $"Purchase {itemName} x{amountPerPurchase} for ${cost}";
+        public string GetName(KeyValueState<string, object> state) => $"Purchase {itemName} x{amountPerPurchase} for ${cost}";
         public int ActionCost => 10;
 
-        public bool CheckPreconditions(State<string, object> state)
+        public bool CheckPreconditions(KeyValueState<string, object> state)
         {
             return state.Get<int>("money") >= cost
                    && state.Check("myLocation", storeName)
                    && (max == null || state.Get<int>(itemName) < max);
         }
 
-        public void TakeActionOnState(State<string, object> state)
+        public void TakeActionOnState(KeyValueState<string, object> state)
         {
             state.Set(itemName, Math.Min(max ?? int.MaxValue, state.Get<int>(itemName) + amountPerPurchase));
             state.Set("money", state.Get<int>("money") - cost);

@@ -1,8 +1,7 @@
 ﻿namespace PlainGOAP
 {
-    public interface IState<TKey, TVal>
+    public interface IState
     {
-        int GetUniqueHash();
-        IState<TKey, TVal> CopyAddAction(IAction<TKey, TVal> action);
+        int GetUniqueHashForState();
     }
 }

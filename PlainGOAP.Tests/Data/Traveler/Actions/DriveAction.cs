@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using PlainGOAP.StateManagement;
 
 namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
-    public class DriveAction : IAction<string, object>
+    public class DriveAction : IAction<KeyValueState<string, object>>
     {
         private const double GasPerDistance = 10;
         private readonly string location;
@@ -16,10 +17,10 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             this.locations = locations;
         }
 
-        public string GetName(State<string, object> state) => $"Drive to {location}, using {GetGasCost(state)} gas. {state.Get<int>("gas")-GetGasCost(state)} left";
+        public string GetName(KeyValueState<string, object> state) => $"Drive to {location}, using {GetGasCost(state)} gas. {state.Get<int>("gas")-GetGasCost(state)} left";
         public int ActionCost => 10;
 
-        private int GetGasCost(State<string, object> state)
+        private int GetGasCost(KeyValueState<string, object> state)
         {
             var currentLocation = state.Get<string>("myLocation");
             var (_, currentX, currentY) = locations.First(l => l.Item1 == currentLocation);
@@ -28,12 +29,12 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             return Convert.ToInt32(distance * GasPerDistance);
         }
 
-        public bool CheckPreconditions(State<string, object> state)
+        public bool CheckPreconditions(KeyValueState<string, object> state)
         {
             return state.Get<int>("gas") >= GetGasCost(state);
         }
 
-        public void TakeActionOnState(State<string, object> state)
+        public void TakeActionOnState(KeyValueState<string, object> state)
         {
             var gasCost = GetGasCost(state);
             state.Set("gas", state.Get<int>("gas") - gasCost);
