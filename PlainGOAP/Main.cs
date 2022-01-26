@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PlainGOAP.Engine;
-using PlainGOAP.Implementation;
+using PlainGOAP.Implementation.Actions;
 
 namespace PlainGOAP
 {
@@ -9,51 +10,67 @@ namespace PlainGOAP
     {
         public static void Main()
         {
+            const int COST_OF_TOY = 10;
+            const int SELL_VALUE_OF_TOY = 35;
+            const int COST_OF_GAS = 50;
+            const int COST_OF_FOOD = 30;
+            const int GAS_TANK_CAPACITY = 40;
+            const int WAGE = 40;
+
             var currentState = new State<string, object>();
-            currentState.Set("myLocation", "home");
-            currentState.Set("hasFood", false);
+            currentState.Set("myLocation", "Home");
+            currentState.Set("food", 0);
             currentState.Set("full", false);
             currentState.Set("money", 0);
+            currentState.Set("gas", 40);
+            currentState.Set("fun", 0);
+            currentState.Set("fatigue", 0);
+            currentState.Set("toy", 0);
 
             var goalState = new State<string, object>();
             goalState.Set("full", true);
-            goalState.Set("money", 100);
-            goalState.Set("myLocation", "home");
+            goalState.Set("fun", 2);
+            goalState.Set("myLocation", "Home");
+            goalState.Set("fatigue", 0);
+
+            var locations = new List<(string, int, int)>
+            {
+                ("Restaurant", 2, 2),
+                ("Work", 1, 0),
+                ("Gas Station", 1, 1),
+                ("Home", 0, 0),
+                ("Theater", 2, 0),
+            };
 
             var actions = new IAction<string, object>[]
             {
-                new LambdaAction<string, object>("GoToRestaurant", _ => true, state => state.Set("myLocation", "restaurant")),
-                new LambdaAction<string, object>("GoToWork", _ => true, state => state.Set("myLocation", "work")),
-                new LambdaAction<string, object>("GoHome", _ => true, state => state.Set("myLocation", "home")),
-                new LambdaAction<string, object>(
-                    "DoWork",
-                    state => state.Check("myLocation", "work"),
-                    state => state.Set("money", state.Get<int>("money") + 10)
-                ),
-                new LambdaAction<string, object>(
-                    "OrderFood",
-                    state => state.Check("myLocation", "restaurant") && state.Get<int>("money") >= 20,
-                    state =>
-                    {
-                        state.Set("money", state.Get<int>("money") - 20);
-                        state.Set("hasFood", true);
-                    }),
-                new LambdaAction<string, object>(
-                    "Eat",
-                    state => state.Check("myLocation", "restaurant") && state.Check("hasFood", true),
-                    state =>
-                    {
-                        state.Set("hasFood", false);
-                        state.Set("full", true);
-                    }),
+                new DriveAction("Restaurant", locations),
+                new DriveAction("Work", locations),
+                new DriveAction("Home", locations),
+                new DriveAction("Gas Station", locations),
+                new DriveAction("Theater", locations),
+                new PurchaseAction("gas", "Gas Station", COST_OF_GAS, GAS_TANK_CAPACITY, GAS_TANK_CAPACITY),
+                new PurchaseAction("toy", "Gas Station", COST_OF_TOY, 3, 6),
+                new PurchaseAction("food", "Restaurant", COST_OF_FOOD, 1),
+                new SellAction("toy", SELL_VALUE_OF_TOY),
+                new WorkAction("Work", WAGE),
+                new WatchMovieAction(),
+                new SleepAction(),
+                new EatAction()
             };
 
-            var planner = new Planner<string, object>(actions, currentState);
-            var plan = planner.FindPlan(goalState).ToArray();
 
-            Console.WriteLine("Plan complete");
-            foreach (var action in plan)
-                Console.WriteLine(action?.Name ?? "null");
+            var start = DateTime.Now;
+            var plan = AStarSearch<string, object>.FindPath(currentState, goalState, actions).ToArray();
+
+            Console.WriteLine($"Plan complete after {(DateTime.Now - start).TotalMilliseconds}ms");
+
+            for (var i = 1; i < plan.Length; i++)
+            {
+                var state = plan[i];
+                Console.WriteLine(state.CameFrom?.GetName(plan[i-1].State) ?? "null");
+            }
+
         }
     }
 }

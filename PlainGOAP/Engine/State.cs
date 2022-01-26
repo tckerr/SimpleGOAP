@@ -24,6 +24,10 @@ namespace PlainGOAP.Engine
         {
             facts[key] = val;
         }
+        public void Set<T>(TKey key, Func<T, T> setter) where T : TVal
+        {
+            facts[key] = setter((T)facts[key]);
+        }
         public void Set(Fact<TKey, TVal> fact)
         {
             facts[fact.Key] = fact.Value;

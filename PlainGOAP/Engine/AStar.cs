@@ -18,7 +18,7 @@ namespace PlainGOAP.Engine
             State = state;
         }
 
-        public int Cost => CameFrom?.Cost ?? 0;
+        public int Cost => CameFrom?.ActionCost ?? 0;
 
         public bool IsComplete(State<TKey, TVal> worldState)
         {
@@ -61,7 +61,7 @@ namespace PlainGOAP.Engine
 
         private static int HeuristicCost(StateNode<TKey, TVal> node, State<TKey, TVal> goalState)
         {
-            return goalState.ListFacts().Count(f => !node.State.Check(f)) + node.Cost;
+            return goalState.ListFacts().Count(f => !node.State.Check(f));
         }
 
         private static IEnumerable<StateNode<TKey, TVal>> GetNeighbors(StateNode<TKey, TVal> start,
@@ -92,7 +92,7 @@ namespace PlainGOAP.Engine
                 var cf = node.CameFrom;
                 var name = "Default";
                 if (cf != null)
-                    name = cf.Name;
+                    name = cf.GetName(node.State);
                 str += "> " + name + " ";
                 if (!cameFrom.ContainsKey(node))
                     return str;
