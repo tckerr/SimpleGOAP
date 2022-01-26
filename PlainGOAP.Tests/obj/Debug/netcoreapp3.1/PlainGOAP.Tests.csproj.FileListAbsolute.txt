@@ -86,8 +86,6 @@ C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
-C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\PlainGOAP.dll
-C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\PlainGOAP.pdb
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\PlainGOAP.Tests.csprojAssemblyReference.cache
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\PlainGOAP.Tests.AssemblyInfoInputs.cache
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\PlainGOAP.Tests.AssemblyInfo.cs
@@ -97,3 +95,7 @@ C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\PlainGOAP.Tests.pdb
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\obj\Debug\netcoreapp3.1\PlainGOAP.Tests.genruntimeconfig.cache
 C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\PriorityQueue.dll
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\PlainGOAP.Core.dll
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.dll
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.pdb
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.Tests\bin\Debug\netcoreapp3.1\PlainGOAP.Core.pdb

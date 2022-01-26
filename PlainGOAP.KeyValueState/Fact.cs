@@ -1,4 +1,4 @@
-﻿namespace PlainGOAP.StateManagement
+﻿namespace PlainGOAP.KeyValueState
 {
     public class Fact<TKey, TVal>
     {

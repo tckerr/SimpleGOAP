@@ -9,7 +9,8 @@
       "PlainGOAP.Tests/1.0.0": {
         "dependencies": {
           "Microsoft.NET.Test.Sdk": "16.5.0",
-          "PlainGOAP": "1.0.0",
+          "PlainGOAP.Core": "1.0.0",
+          "PlainGOAP.KeyValueState": "1.0.0",
           "coverlet.collector": "1.2.0",
           "xunit": "2.4.0",
           "xunit.runner.visualstudio": "2.4.0"
@@ -689,9 +690,17 @@
           "Microsoft.NET.Test.Sdk": "16.5.0"
         }
       },
-      "PlainGOAP/1.0.0": {
+      "PlainGOAP.Core/1.0.0": {
         "runtime": {
-          "PlainGOAP.dll": {}
+          "PlainGOAP.Core.dll": {}
+        }
+      },
+      "PlainGOAP.KeyValueState/1.0.0": {
+        "dependencies": {
+          "PlainGOAP.Core": "1.0.0"
+        },
+        "runtime": {
+          "PlainGOAP.KeyValueState.dll": {}
         }
       },
       "PriorityQueue/5.0.0.0": {
@@ -1060,7 +1069,12 @@
       "path": "xunit.runner.visualstudio/2.4.0",
       "hashPath": "xunit.runner.visualstudio.2.4.0.nupkg.sha512"
     },
-    "PlainGOAP/1.0.0": {
+    "PlainGOAP.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PlainGOAP.KeyValueState/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

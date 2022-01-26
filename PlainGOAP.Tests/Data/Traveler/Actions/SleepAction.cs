@@ -1,4 +1,4 @@
-﻿using PlainGOAP.StateManagement;
+﻿using PlainGOAP.KeyValueState;
 
 namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
@@ -12,9 +12,10 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             return state.Check("myLocation", "Home") && state.Get<int>("fatigue") > 0;
         }
 
-        public void TakeActionOnState(KeyValueState<string, object> state)
+        public KeyValueState<string, object> TakeActionOnState(KeyValueState<string, object> state)
         {
             state.Set("fatigue", 0);
+            return state;
         }
     }
 }

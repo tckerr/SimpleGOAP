@@ -1,6 +1,5 @@
 using System;
-using System.Linq;
-using PlainGOAP.StateManagement;
+using PlainGOAP.KeyValueState;
 using PlainGOAP.Tests.Data.Traveler;
 using Xunit;
 using Xunit.Abstractions;
@@ -17,21 +16,18 @@ namespace PlainGOAP.Tests
         }
 
         [Fact]
-        public void TestTravelerData()
+        public void TestKeyValuePlanner()
         {
             var data = TravelerDataFactory.Create();
-            var subject = new Planner<KeyValueState<string, object>>(
-                new KeyValueStateCopier<string, object>());
+            var subject = new KeyValuePlanner();
 
             var start = DateTime.Now;
-            var plan = subject.Execute(data, int.MaxValue).ToArray();
-            testOutputHelper.WriteLine($"Plan complete after {(DateTime.Now - start).TotalMilliseconds}ms");
+            var plan = subject.Execute(data);
+            var duration = DateTime.Now - start;
 
-            for (var i = 1; i < plan.Length; i++)
-            {
-                var state = plan[i];
-                testOutputHelper.WriteLine(state.SourceAction?.GetName(plan[i-1].State) ?? "null");
-            }
+            testOutputHelper.WriteLine($"Plan complete after {duration.TotalMilliseconds}ms:");
+            foreach (var step in plan.Steps)
+                testOutputHelper.WriteLine($"\t{step.Action.GetName(step.BeforeState)}");
         }
     }
 }

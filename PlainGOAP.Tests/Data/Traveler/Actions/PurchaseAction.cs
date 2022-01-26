@@ -1,5 +1,5 @@
 ﻿using System;
-using PlainGOAP.StateManagement;
+using PlainGOAP.KeyValueState;
 
 namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
@@ -30,10 +30,11 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
                    && (max == null || state.Get<int>(itemName) < max);
         }
 
-        public void TakeActionOnState(KeyValueState<string, object> state)
+        public KeyValueState<string, object> TakeActionOnState(KeyValueState<string, object> state)
         {
             state.Set(itemName, Math.Min(max ?? int.MaxValue, state.Get<int>(itemName) + amountPerPurchase));
             state.Set("money", state.Get<int>("money") - cost);
+            return state;
         }
     }
 }

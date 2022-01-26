@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PlainGOAP.StateManagement;
+using PlainGOAP.KeyValueState;
 using PlainGOAP.Tests.Data.Traveler.Actions;
 
 namespace PlainGOAP.Tests.Data.Traveler
 {
     public static class TravelerDataFactory
     {
-        public static SearchParameters<KeyValueState<string, object>> Create()
+        public static PlanParameters<KeyValueState<string, object>> Create()
         {
             const int COST_OF_TOY = 10;
             const int SELL_VALUE_OF_TOY = 40;
@@ -61,7 +61,7 @@ namespace PlainGOAP.Tests.Data.Traveler
                     state.Get<int>("fatigue") <= 0 ? 0 : 1,
                 }.Sum();
 
-            return new SearchParameters<KeyValueState<string, object>>
+            return new PlanParameters<KeyValueState<string, object>>
             {
                 Actions = actions,
                 StartingState = currentState,

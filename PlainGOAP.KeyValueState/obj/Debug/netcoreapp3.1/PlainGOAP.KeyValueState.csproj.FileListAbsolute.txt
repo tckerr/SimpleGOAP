@@ -1,0 +1,13 @@
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\bin\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.deps.json
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\bin\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.dll
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\bin\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.pdb
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\bin\Debug\netcoreapp3.1\PlainGOAP.Core.dll
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\bin\Debug\netcoreapp3.1\PriorityQueue.dll
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\bin\Debug\netcoreapp3.1\PlainGOAP.Core.pdb
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\obj\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.csprojAssemblyReference.cache
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\obj\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.AssemblyInfoInputs.cache
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\obj\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.AssemblyInfo.cs
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\obj\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.csproj.CoreCompileInputs.cache
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\obj\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.csproj.CopyComplete
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\obj\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.dll
+C:\Users\Tom\Desktop\Projects\PlainGOAP\PlainGOAP.KeyValueState\obj\Debug\netcoreapp3.1\PlainGOAP.KeyValueState.pdb

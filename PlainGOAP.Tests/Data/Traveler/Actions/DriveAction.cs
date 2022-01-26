@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlainGOAP.StateManagement;
+using PlainGOAP.KeyValueState;
 
 namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
@@ -34,11 +34,12 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             return state.Get<int>("gas") >= GetGasCost(state);
         }
 
-        public void TakeActionOnState(KeyValueState<string, object> state)
+        public KeyValueState<string, object> TakeActionOnState(KeyValueState<string, object> state)
         {
             var gasCost = GetGasCost(state);
             state.Set("gas", state.Get<int>("gas") - gasCost);
             state.Set("myLocation", location);
+            return state;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using PlainGOAP.StateManagement;
+﻿using PlainGOAP.KeyValueState;
 
 namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
@@ -11,10 +11,11 @@ namespace PlainGOAP.Tests.Data.Traveler.Actions
             return state.Check("myLocation", "Restaurant") && state.Get<int>("food") > 0;
         }
 
-        public void TakeActionOnState(KeyValueState<string, object> state)
+        public KeyValueState<string, object> TakeActionOnState(KeyValueState<string, object> state)
         {
             state.Set("food", state.Get<int>("food") - 1);
             state.Set("full", true);
+            return state;
         }
     }
 }
