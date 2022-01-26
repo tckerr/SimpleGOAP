@@ -1,3 +1,7 @@
+# What is GOAP?
+
+Goal oriented action planning. There are some great resources on the topic [for your reading here](https://alumni.media.mit.edu/~jorkin/goap.html).
+
 # Usage
 
 ## Example: Baking potatoes
