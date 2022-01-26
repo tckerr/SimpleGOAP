@@ -23,7 +23,7 @@ namespace PlainGOAP.Tests
                 new FactCountHeuristic<string, object>());
 
             var start = DateTime.Now;
-            var plan = subject.FindPath(data).ToArray();
+            var plan = subject.FindPath(data, int.MaxValue).ToArray();
             testOutputHelper.WriteLine($"Plan complete after {(DateTime.Now - start).TotalMilliseconds}ms");
 
             for (var i = 1; i < plan.Length; i++)

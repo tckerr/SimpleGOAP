@@ -14,65 +14,28 @@ namespace PlainGOAP
             this.heuristicStrategy = heuristicStrategy;
         }
 
-
-        public IEnumerable<StateNode<TKey, TVal>> FindPath2(SearchParameters<TKey, TVal> @params)
-        {
-            var goalState = @params.GoalState;
-            var openSet = new StablePriorityQueue<StateNode<TKey, TVal>>(1000000);
-            openSet.Enqueue(new StateNode<TKey, TVal>(@params.StartingState, null, null), 0);
-            var closedSet = new HashSet<StateNode<TKey, TVal>>();
-            while (!openSet.First().IsComplete(goalState))
-            {
-                var current = openSet.Dequeue();
-                closedSet.Add(current);
-                var neighbors = GetNeighbors(current, @params.Actions).ToArray();
-                for (var i = 0; i < neighbors.Length; i++)
-                {
-                    var neighbor = neighbors[i];
-                    var cost = current.GCost + neighbor.ActionCost;
-                    if (cost < neighbor.GCost && openSet.Contains(neighbor))
-                        openSet.Remove(neighbor);
-                    if (cost < neighbor.GCost && closedSet.Contains(neighbor))
-                        closedSet.Remove(neighbor);
-                    if (!openSet.Contains(neighbor) && !closedSet.Contains(neighbor))
-                    {
-                        neighbor.GCost = cost;
-                        openSet.Enqueue(neighbor, neighbor.GCost + heuristicStrategy.Calculate(neighbor, goalState));
-                    }
-                }
-            }
-            if(!openSet.Any())
-                throw new Exception($"No path found");
-
-            return ReconstructPath(openSet.First());
-        }
-
-
-
         public IEnumerable<StateNode<TKey, TVal>> FindPath(SearchParameters<TKey, TVal> @params,
             int maxIterations = 10000)
         {
             var start = new StateNode<TKey, TVal>(@params.StartingState, null, null);
-            var openSet = new HashSet<StateNode<TKey, TVal>> { start };
+            var openSet = new FastPriorityQueue<StateNode<TKey, TVal>>(99999);
+            openSet.Enqueue(start, 0);
 
-            var finalScores = new DefaultDict<int, int>(int.MaxValue);
             var distanceScores = new DefaultDict<int, int>(int.MaxValue);
 
             distanceScores[start.GetHash()] = 0;
-            finalScores[start.GetHash()] = heuristicStrategy.Calculate(start, @params.GoalState);
 
             var iterations = 0;
 
             while (openSet.Any() && ++iterations < maxIterations)
             {
-                var current = openSet.OrderBy(n => finalScores[n.GetHash()]).First();
+                var current = openSet.Dequeue();
                 if (current.IsComplete(@params.GoalState))
                 {
                     // Console.WriteLine($"Path found after {iterations} iterations");
                     return ReconstructPath(current);
                 }
 
-                openSet.Remove(current);
                 var neighbors = GetNeighbors(current, @params.Actions).ToArray();
                 foreach (var neighbor in neighbors)
                 {
@@ -88,9 +51,9 @@ namespace PlainGOAP
 
                     // Console.WriteLine($"[{iterations}] Validated path {PrintPath(neighbor, cameFrom)} was cheaper... adding node and registering scores. ");
                     distanceScores[neighbor.GetHash()] = distScore;
-                    finalScores[neighbor.GetHash()] = distScore + heuristicStrategy.Calculate(neighbor, @params.GoalState);
+                    var finalScore = distScore + heuristicStrategy.Calculate(neighbor, @params.GoalState);
                     if (!openSet.Contains(neighbor))
-                        openSet.Add(neighbor);
+                        openSet.Enqueue(neighbor, finalScore);
                 }
             }
 

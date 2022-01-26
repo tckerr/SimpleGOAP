@@ -8,11 +8,11 @@ namespace PlainGOAP.Tests.Data.Traveler
         public static SearchParameters<string, object> Create()
         {
             const int COST_OF_TOY = 10;
-            const int SELL_VALUE_OF_TOY = 35;
+            const int SELL_VALUE_OF_TOY = 40;
             const int COST_OF_GAS = 50;
             const int COST_OF_FOOD = 30;
             const int GAS_TANK_CAPACITY = 40;
-            const int WAGE = 40;
+            const int WAGE = 20;
 
             var currentState = new State<string, object>();
             currentState.Set("myLocation", "Home");
@@ -22,7 +22,7 @@ namespace PlainGOAP.Tests.Data.Traveler
             currentState.Set("gas", 40);
             currentState.Set("fun", 0);
             currentState.Set("fatigue", 0);
-            // currentState.Set("toy", 0);
+            currentState.Set("toy", 0);
 
             var goalState = new State<string, object>();
             goalState.Set("full", true);
@@ -47,9 +47,9 @@ namespace PlainGOAP.Tests.Data.Traveler
                 new DriveAction("Gas Station", locations),
                 new DriveAction("Theater", locations),
                 new PurchaseAction("gas", "Gas Station", COST_OF_GAS, GAS_TANK_CAPACITY, GAS_TANK_CAPACITY),
-                // new PurchaseAction("toy", "Gas Station", COST_OF_TOY, 3, 6),
+                new PurchaseAction("toy", "Gas Station", COST_OF_TOY, 3, 6),
                 new PurchaseAction("food", "Restaurant", COST_OF_FOOD, 1),
-                // new SellAction("toy", SELL_VALUE_OF_TOY),
+                new SellAction("toy", SELL_VALUE_OF_TOY),
                 new WorkAction("Work", WAGE),
                 new WatchMovieAction(),
                 new SleepAction(),
