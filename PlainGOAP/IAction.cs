@@ -1,4 +1,4 @@
-﻿namespace PlainGOAP.Engine
+﻿namespace PlainGOAP
 {
     public interface IAction<TKey, TVal>
     {

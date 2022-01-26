@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace PlainGOAP.Util
+namespace PlainGOAP
 {
-
-
     public class DefaultDict<TKey, TValue> : Dictionary<TKey, TValue>
     {
         private readonly TValue @default;

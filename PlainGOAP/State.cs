@@ -2,20 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PlainGOAP.Engine
+namespace PlainGOAP
 {
-    public struct Fact<TKey, TVal>
-    {
-        public TKey Key;
-        public TVal Value;
-
-        public Fact(TKey key, TVal value)
-        {
-            Key = key;
-            Value = value;
-        }
-    }
-
     public class State<TKey, TVal>
     {
         private readonly Dictionary<TKey, TVal> facts = new Dictionary<TKey, TVal>();

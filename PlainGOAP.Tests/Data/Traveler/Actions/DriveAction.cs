@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlainGOAP.Engine;
 
-namespace PlainGOAP.Implementation.Actions
+namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
     public class DriveAction : IAction<string, object>
     {

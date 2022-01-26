@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using PlainGOAP.Engine;
-using PlainGOAP.Implementation.Actions;
+using PlainGOAP.Tests.Data.Traveler.Actions;
 
-namespace PlainGOAP.Tests.Data
+namespace PlainGOAP.Tests.Data.Traveler
 {
-    public class Traveler : IFixtureDataFactory<string, object>
+    public static class TravelerDataFactory
     {
-        public SearchParameters<string, object> Create()
+        public static SearchParameters<string, object> Create()
         {
             const int COST_OF_TOY = 10;
             const int SELL_VALUE_OF_TOY = 35;

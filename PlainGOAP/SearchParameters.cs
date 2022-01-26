@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PlainGOAP.Engine
+namespace PlainGOAP
 {
     public class SearchParameters<T1, T2>
     {

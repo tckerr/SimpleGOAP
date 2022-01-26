@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
-using PlainGOAP.Engine;
-using PlainGOAP.Tests.Data;
+using PlainGOAP.Tests.Data.Traveler;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -19,7 +18,7 @@ namespace PlainGOAP.Tests
         [Fact]
         public void TestTravelerData()
         {
-            var data = new Traveler().Create();
+            var data = TravelerDataFactory.Create();
             var start = DateTime.Now;
 
             var plan = AStarSearch.FindPath(data).ToArray();

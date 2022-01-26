@@ -1,6 +1,4 @@
-﻿using PlainGOAP.Engine;
-
-namespace PlainGOAP.Implementation.Actions
+﻿namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
     public class SellAction : IAction<string, object>
     {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace PlainGOAP.Engine
+namespace PlainGOAP
 {
     public class StateNode<TKey, TVal>
     {

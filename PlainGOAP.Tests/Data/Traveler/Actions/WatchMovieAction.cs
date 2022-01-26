@@ -1,7 +1,4 @@
-﻿using System;
-using PlainGOAP.Engine;
-
-namespace PlainGOAP.Implementation.Actions
+﻿namespace PlainGOAP.Tests.Data.Traveler.Actions
 {
     public class WatchMovieAction : IAction<string, object>
     {

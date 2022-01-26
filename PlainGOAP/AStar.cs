@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlainGOAP.Util;
 
-namespace PlainGOAP.Engine
+namespace PlainGOAP
 {
     public static class AStarSearch
     {
         private static IEnumerable<StateNode<TKey, TVal>> ReconstructPath<TKey, TVal>(
             Dictionary<StateNode<TKey, TVal>, StateNode<TKey, TVal>> cameFrom, StateNode<TKey, TVal> current)
         {
-            var path = new List<StateNode<TKey, TVal>> {current};
+            var path = new List<StateNode<TKey, TVal>> { current };
             while (cameFrom.TryGetValue(current, out var next))
             {
                 current = next;
@@ -45,7 +44,8 @@ namespace PlainGOAP.Engine
             return result;
         }
 
-        private static string PrintPath<TKey, TVal>(StateNode<TKey, TVal> node, IReadOnlyDictionary<StateNode<TKey, TVal>, StateNode<TKey, TVal>> cameFrom)
+        private static string PrintPath<TKey, TVal>(StateNode<TKey, TVal> node,
+            IReadOnlyDictionary<StateNode<TKey, TVal>, StateNode<TKey, TVal>> cameFrom)
         {
             var str = "";
             while (true)
@@ -61,10 +61,11 @@ namespace PlainGOAP.Engine
             }
         }
 
-        public static IEnumerable<StateNode<TKey, TVal>> FindPath<TKey, TVal>(SearchParameters<TKey, TVal> @params)
+        public static IEnumerable<StateNode<TKey, TVal>> FindPath<TKey, TVal>(SearchParameters<TKey, TVal> @params,
+            int maxIterations = 10000)
         {
             var start = new StateNode<TKey, TVal>(@params.StartingState, null);
-            var openSet = new HashSet<StateNode<TKey, TVal>> {start};
+            var openSet = new HashSet<StateNode<TKey, TVal>> { start };
 
             var cameFrom = new Dictionary<StateNode<TKey, TVal>, StateNode<TKey, TVal>>();
             var finalScores = new DefaultDict<string, int>(int.MaxValue);
@@ -75,7 +76,7 @@ namespace PlainGOAP.Engine
 
             var iterations = 0;
 
-            while (openSet.Any() && ++iterations < 10000)
+            while (openSet.Any() && ++iterations < maxIterations)
             {
                 var current = openSet.OrderBy(n => finalScores[n.GetHash()]).First();
                 if (current.IsComplete(@params.GoalState))
@@ -94,7 +95,7 @@ namespace PlainGOAP.Engine
                     if (distScore >= distanceScores[neighbor.GetHash()])
                     {
                         // Console.WriteLine($"[{iterations}] {PrintPath(neighbor, cameFrom)} was more expensive than an " +
-                                          // $"existing path. Ignoring.");
+                        // $"existing path. Ignoring.");
                         continue;
                     }
 
