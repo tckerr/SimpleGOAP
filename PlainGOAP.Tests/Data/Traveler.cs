@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using PlainGOAP.Engine;
 using PlainGOAP.Implementation.Actions;
 
-namespace PlainGOAP
+namespace PlainGOAP.Tests.Data
 {
-    public static class M
+    public class Traveler : IFixtureDataFactory<string, object>
     {
-        public static void Main()
+        public SearchParameters<string, object> Create()
         {
             const int COST_OF_TOY = 10;
             const int SELL_VALUE_OF_TOY = 35;
@@ -59,20 +57,12 @@ namespace PlainGOAP
                 new EatAction()
             };
 
-
-            var start = DateTime.Now;
-            var plan = AStarSearch<string, object>.FindPath(currentState, goalState, actions).ToArray();
-
-            Console.WriteLine($"Plan complete after {(DateTime.Now - start).TotalMilliseconds}ms");
-
-            for (var i = 1; i < plan.Length; i++)
+            return new SearchParameters<string, object>
             {
-                var state = plan[i];
-                Console.WriteLine(state.CameFrom?.GetName(plan[i-1].State) ?? "null");
-            }
-
+                Actions = actions,
+                StartingState = currentState,
+                GoalState = goalState
+            };
         }
     }
 }
-
-
