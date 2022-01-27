@@ -5,8 +5,8 @@ namespace PlainGOAP.KeyValueState
 {
     public class KeyValueState<TKey, TVal>
     {
-        public List<Fact<TKey, TVal>> Facts { get; } = new();
-        private readonly Dictionary<TKey, int> indices = new();
+        public List<Fact<TKey, TVal>> Facts { get; } = new List<Fact<TKey, TVal>>();
+        private readonly Dictionary<TKey, int> indices = new Dictionary<TKey, int>();
 
         public void Set(TKey key, TVal val)
         {
@@ -35,7 +35,7 @@ namespace PlainGOAP.KeyValueState
             if (!indices.TryGetValue(key, out var idx))
                 throw new Exception($"Fact key '{key}' not registered");
             var val = Facts[idx].Value;
-            if (val is not T2 tval)
+            if (!(val is T2 tval))
                 throw new Exception($"Fact of type {val.GetType().FullName} is not type {typeof(T2).FullName}");
             return tval;
         }
