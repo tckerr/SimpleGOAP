@@ -75,5 +75,20 @@ namespace PlainGOAP.Tests
             foreach (var step in plan.Steps)
                 testOutputHelper.WriteLine($"\t{step.Action.Title}");
         }
+
+        [Fact]
+        public void TestKeyValuePlannerPerformance()
+        {
+            var data = TravelerDataFactory.Create();
+            var subject = new KeyValuePlanner();
+
+            var start = DateTime.Now;
+            var iterations = 100;
+            for (var i = 0; i < iterations; i++)
+                subject.Execute(data);
+            var duration = DateTime.Now - start;
+
+            testOutputHelper.WriteLine($"Plan x{iterations} complete after {duration.TotalSeconds}s:");
+        }
     }
 }

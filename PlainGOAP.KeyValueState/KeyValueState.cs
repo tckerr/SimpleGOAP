@@ -23,9 +23,11 @@ namespace PlainGOAP.KeyValueState
         {
             foreach (var (key, val) in list)
                 Set(key, val);
-            }
+        }
 
-        public void Set<T>(TKey key, Func<T, T> setter) where T : TVal => Set(key, setter((T)Facts[indices[key]].Value));
+        public void Set<T>(TKey key, Func<T, T> setter) where T : TVal =>
+            Set(key, setter((T) Facts[indices[key]].Value));
+
         public void Set(Fact<TKey, TVal> fact) => Set(fact.Key, fact.Value);
 
         public T2 Get<T2>(TKey key) where T2 : TVal

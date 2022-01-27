@@ -10,7 +10,7 @@ namespace PlainGOAP.Tests.Data.Traveler
         public static PlanParameters<KeyValueState<string, object>> Create()
         {
             const int COST_OF_TOY = 10;
-            const int SELL_VALUE_OF_TOY = 40;
+            const int SELL_VALUE_OF_TOY = 30;
             const int COST_OF_GAS = 50;
             const int COST_OF_FOOD = 30;
             const int GAS_TANK_CAPACITY = 40;
@@ -60,10 +60,10 @@ namespace PlainGOAP.Tests.Data.Traveler
                 new[]
                 {
                     state.Check("full", true) ? 0 : 1,
-                    // state.Check("myLocation", "Home") ? 0 : 1,
+                    state.Check("myLocation", "Home") ? 0 : 1,
                     state.Get<int>("fun") >= 2 ? 0 : 1,
                     state.Get<int>("fatigue") <= 0 ? 0 : 1,
-                }.Sum();
+                }.Sum() * 300;
 
             return new PlanParameters<KeyValueState<string, object>>
             {

@@ -18,6 +18,12 @@ namespace PlainGOAP
 
         public Plan<T> Execute(PlanParameters<T> @params)
         {
+            /*
+             * AStar:
+             *  g score: current distance from the start measured by sum of action costs
+             *  h score: heuristic of how close the node's state is to goal state, supplied by caller
+             *  f score: sum of (g, h), used as priority of the node
+             */
             var heuristicCost = @params.HeuristicCost;
             var evalGoal = @params.GoalEvaluator;
             var start = new StateNode<T>(@params.StartingState, null, null);
@@ -36,8 +42,7 @@ namespace PlainGOAP
                 if (evalGoal(current.State))
                     return ReconstructPath(current, @params.StartingState);
 
-                var neighbors = GetNeighbors(current, @params.Actions).ToArray();
-                foreach (var neighbor in neighbors)
+                foreach (var neighbor in GetNeighbors(current, @params.Actions))
                 {
                     var distScore = distanceScores[current.State] + neighbor.ActionCost;
                     if (distScore >= distanceScores[neighbor.State])
@@ -53,14 +58,14 @@ namespace PlainGOAP
             throw new Exception($"No path found, iterations: {iterations}");
         }
 
-        private IPriorityQueue<StateNode<T>, float> CreateQueue(PlanParameters<T> args)
+        private static IPriorityQueue<StateNode<T>, float> CreateQueue(PlanParameters<T> args)
         {
             if (args.UseFastQueue)
                 return new FastPriorityQueue<StateNode<T>>(args.QueueMaxSize);
             return new SimplePriorityQueue<StateNode<T>>();
         }
 
-        private Plan<T> ReconstructPath(StateNode<T> final, T startingState)
+        private static Plan<T> ReconstructPath(StateNode<T> final, T startingState)
         {
             var current = final;
             var path = new List<StateNode<T>>();
@@ -93,11 +98,12 @@ namespace PlainGOAP
             {
                 var newState = action.TakeActionOnState(stateCopier.Copy(currentState));
 
+                // sometimes actions have no effect on state, in which case we don't want to entertain them as nodes
+                // assuming that additional actions to get to the same state is always worse
                 if(stateComparer.Equals(currentState, newState))
                     continue;
 
-                var node = new StateNode<T>(newState, start, action);
-                result.Add(node);
+                result.Add(new StateNode<T>(newState, start, action));
             }
 
             return result;

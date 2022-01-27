@@ -38,7 +38,7 @@ namespace PlainGOAP.Tests.Data.ReadmeExample
 
         public int GetHashCode(PotatoState obj)
         {
-            return HashCode.Combine(obj.RawPotatoes, obj.Wood, obj.Fire, obj.BakedPotatoes);
+            return new {obj.RawPotatoes, obj.Wood, obj.Fire, obj.BakedPotatoes}.GetHashCode();
         }
     }
 }
