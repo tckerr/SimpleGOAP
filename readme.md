@@ -106,7 +106,7 @@ var actionsList = new[]
         state => state.RawPotatoes++ // effect
         ),
     new LambdaAction<PotatoState>("Chop wood", 1, 
-        state => state.Wood++
+        state => state.Wood++ // effect
         ),
     new LambdaAction<PotatoState>("Make fire", 1,
         state => state.Wood >= 3, // precondition check
@@ -142,7 +142,7 @@ Func<PotatoState,int> heuristicCost = state => 5 - state.BakedPotatoes;
 
 ### Step 4: Running the planner
 
-Finally, instantiate an instance of the planner and execute the plan:
+Finally, instantiate the planner and execute the plan:
 
 ```c#
 var planner = new Planner<PotatoState>(
@@ -225,9 +225,9 @@ public class PotatoStateEqualityComparer : IEqualityComparer<PotatoState>
     }
 }
 
-public class PotatoExample {
+public static class PotatoExample {
 
-    public void Main {    
+    public static void Main() {    
         var initialState = new PotatoState();    
         var actionsList = new[]
         {
