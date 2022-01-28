@@ -23,7 +23,7 @@ namespace SimpleGOAP.Tests
             var subject = new KeyValuePlanner();
 
             var start = DateTime.Now;
-            var iterations = 100;
+            var iterations = 300;
             for (var i = 0; i < iterations; i++)
                 subject.Execute(data);
             var duration = DateTime.Now - start;

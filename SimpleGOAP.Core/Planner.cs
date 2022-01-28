@@ -108,7 +108,6 @@ namespace SimpleGOAP
         private IEnumerable<StateNode<T>> GetNeighbors(StateNode<T> start,
             IEnumerable<IAction<T>> actions)
         {
-            var result = new List<StateNode<T>>();
             var currentState = start.State;
 
             foreach (var action in actions.Where(a => a.IsLegalForState(currentState)))
@@ -117,13 +116,9 @@ namespace SimpleGOAP
 
                 // sometimes actions have no effect on state, in which case we don't want to entertain them as nodes
                 // assuming that additional actions to get to the same state is always worse
-                if(stateComparer.Equals(currentState, newState))
-                    continue;
-
-                result.Add(new StateNode<T>(newState, start, action));
+                if(!stateComparer.Equals(currentState, newState))
+                    yield return new StateNode<T>(newState, start, action);
             }
-
-            return result;
         }
     }
 }
