@@ -15,6 +15,6 @@ namespace SimpleGOAP
             State = state;
         }
 
-        internal int ActionCost => SourceAction?.ActionCost ?? 0;
+        internal int ActionCost => SourceAction?.Cost ?? 0;
     }
 }

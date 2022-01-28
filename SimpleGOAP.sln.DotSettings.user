@@ -3,4 +3,5 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PlannerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=GOAP/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

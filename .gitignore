@@ -1,3 +1,5 @@
 .idea
 **/*bin/
 **/*obj/
+.api_key
+.api_key

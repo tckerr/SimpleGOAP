@@ -5,6 +5,8 @@ using Priority_Queue;
 
 namespace SimpleGOAP
 {
+    /// <summary>The GOAP planner which runs search on possible futures to find a path to a goal state.</summary>
+    /// <typeparam name="T">The type representing state.</typeparam>
     public class Planner<T>
     {
         private readonly IStateCopier<T> stateCopier;
@@ -16,8 +18,18 @@ namespace SimpleGOAP
             this.stateComparer = stateComparer;
         }
 
+        /// <summary>Execute the plan.</summary>
         public Plan<T> Execute(PlanParameters<T> @params)
         {
+            if (@params.GoalEvaluator == null)
+                throw new ArgumentOutOfRangeException(nameof(@params.GoalEvaluator));
+            if (@params.HeuristicCost == null)
+                throw new ArgumentOutOfRangeException(nameof(@params.HeuristicCost));
+            if (@params.Actions == null)
+                throw new ArgumentOutOfRangeException(nameof(@params.Actions));
+            if (@params.StartingState == null)
+                throw new ArgumentOutOfRangeException(nameof(@params.StartingState));
+
             /*
              * AStar:
              *  g score: current distance from the start measured by sum of action costs
@@ -55,7 +67,11 @@ namespace SimpleGOAP
                 }
             }
 
-            throw new Exception($"No path found, iterations: {iterations}");
+            return new Plan<T>
+            {
+                Success = false,
+                Steps = new List<PlanStep<T>>()
+            };
         }
 
         private static IPriorityQueue<StateNode<T>, float> CreateQueue(PlanParameters<T> args)
@@ -78,6 +94,7 @@ namespace SimpleGOAP
             path.Reverse();
             return new Plan<T>
             {
+                Success = true,
                 Steps = path.Select((step, i) => new PlanStep<T>
                 {
                     Index = i,
@@ -94,7 +111,7 @@ namespace SimpleGOAP
             var result = new List<StateNode<T>>();
             var currentState = start.State;
 
-            foreach (var action in actions.Where(a => a.CheckPreconditions(currentState)))
+            foreach (var action in actions.Where(a => a.IsLegalForState(currentState)))
             {
                 var newState = action.TakeActionOnState(stateCopier.Copy(currentState));
 

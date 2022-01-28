@@ -5,9 +5,9 @@ namespace SimpleGOAP.Tests.Data.Traveler.Actions
     public class SleepAction : IAction<KeyValueState<string, object>>
     {
         public string Title => "Sleep";
-        public int ActionCost => 10;
+        public int Cost => 10;
 
-        public bool CheckPreconditions(KeyValueState<string, object> state)
+        public bool IsLegalForState(KeyValueState<string, object> state)
         {
             return state.Check("myLocation", "Home") && state.Get<int>("fatigue") > 0;
         }

@@ -62,7 +62,7 @@ namespace SimpleGOAP.Tests
         }
 
         [Fact]
-        public void TestKeyValuePlanner()
+        public void TestTravelerExample()
         {
             var data = TravelerDataFactory.Create();
             var subject = new KeyValuePlanner();
@@ -74,21 +74,34 @@ namespace SimpleGOAP.Tests
             testOutputHelper.WriteLine($"Plan complete after {duration.TotalMilliseconds}ms:");
             foreach (var step in plan.Steps)
                 testOutputHelper.WriteLine($"\t{step.Action.Title}");
+
+            Assert.True(plan.Success);
         }
 
         [Fact]
-        public void TestKeyValuePlannerPerformance()
+        public void TestKeyValuePlannerFailsWhenNoActions()
         {
-            var data = TravelerDataFactory.Create();
             var subject = new KeyValuePlanner();
 
-            var start = DateTime.Now;
-            var iterations = 100;
-            for (var i = 0; i < iterations; i++)
-                subject.Execute(data);
-            var duration = DateTime.Now - start;
+            var plan = subject.Execute(new PlanParameters<KeyValueState<string, object>>
+            {
+                Actions = Array.Empty<IAction<KeyValueState<string, object>>>(),
+                GoalEvaluator = g => false,
+                HeuristicCost = g => 0,
+                StartingState = new KeyValueState<string, object>()
+            });
 
-            testOutputHelper.WriteLine($"Plan x{iterations} complete after {duration.TotalSeconds}s:");
+            Assert.False(plan.Success);
+        }
+
+        [Fact]
+        public void TestKeyValuePlannerThrowsWhenArgsNull()
+        {
+            var subject = new KeyValuePlanner();
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                subject.Execute(new PlanParameters<KeyValueState<string, object>>());
+            });
         }
     }
 }

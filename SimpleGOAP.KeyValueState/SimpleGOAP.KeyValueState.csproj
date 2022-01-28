@@ -5,6 +5,15 @@
         <AssemblyName>SimpleGOAP.KeyValueState</AssemblyName>
         <RootNamespace>SimpleGOAP.KeyValueState</RootNamespace>
         <TargetFrameworks>net472;net48;net5.0;net5.0-windows;net6.0;net6.0-windows;netstandard1.0;netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard1.7;netstandard2.0;netstandard2.1</TargetFrameworks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>0.0.2</PackageVersion>
+        <Title>https://github.com/tckerr/SimpleGOAP</Title>
+        <Description>An easy-to-use key/value data store for use with SimpleGOAP.Core.</Description>
+        <Copyright>2022 Tom Kerr</Copyright>
+        <PackageProjectUrl>https://github.com/tckerr/SimpleGOAP</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/tckerr/SimpleGOAP</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>

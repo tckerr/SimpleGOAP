@@ -9,24 +9,24 @@ namespace SimpleGOAP
 
         public LambdaAction(string title, int actionCost, Func<T, bool> preconditionCheck, Func<T, T> action)
         {
-            this.Title = title;
-            ActionCost = actionCost;
+            Title = title;
+            Cost = actionCost;
             this.preconditionCheck = preconditionCheck;
             this.action = action;
         }
 
         public LambdaAction(string title, int actionCost,  Func<T, T> action)
         {
-            this.Title = title;
-            ActionCost = actionCost;
+            Title = title;
+            Cost = actionCost;
             preconditionCheck = _ => true;
             this.action = action;
         }
 
         public LambdaAction(string title, int actionCost, Action<T> action)
         {
-            this.Title = title;
-            ActionCost = actionCost;
+            Title = title;
+            Cost = actionCost;
             preconditionCheck = _ => true;
             this.action = state =>
             {
@@ -37,8 +37,8 @@ namespace SimpleGOAP
 
         public LambdaAction(string title, int actionCost, Func<T, bool> preconditionCheck, Action<T> action)
         {
-            this.Title = title;
-            ActionCost = actionCost;
+            Title = title;
+            Cost = actionCost;
             this.preconditionCheck = preconditionCheck;
             this.action = state =>
             {
@@ -49,8 +49,8 @@ namespace SimpleGOAP
 
 
         public string Title { get; }
-        public int ActionCost { get; }
-        public bool CheckPreconditions(T state) => preconditionCheck(state);
+        public int Cost { get; }
+        public bool IsLegalForState(T state) => preconditionCheck(state);
         public T TakeActionOnState(T state) => action(state);
     }
 }
