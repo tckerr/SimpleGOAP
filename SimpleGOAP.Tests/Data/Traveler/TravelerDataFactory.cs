@@ -17,17 +17,20 @@ namespace SimpleGOAP.Tests.Data.Traveler
             const int WAGE = 20;
 
             var currentState = new KeyValueState<string, object>();
-            currentState.Set(new (string, object)[]
+            foreach (var (key, val) in new (string, object)[]
+                     {
+                         ("myLocation", "Home"),
+                         ("food", 0),
+                         ("full", false),
+                         ("money", 0),
+                         ("gas", 40),
+                         ("fun", 0),
+                         ("fatigue", 0),
+                         ("toy", 0),
+                     })
             {
-                ("myLocation", "Home"),
-                ("food", 0),
-                ("full", false),
-                ("money", 0),
-                ("gas", 40),
-                ("fun", 0),
-                ("fatigue", 0),
-                ("toy", 0),
-            });
+                currentState.Set(new Fact<string, object>(key, val));
+            }
 
 
             var locations = new List<(string, int, int)>

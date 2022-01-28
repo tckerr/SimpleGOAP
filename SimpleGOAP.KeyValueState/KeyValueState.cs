@@ -19,12 +19,6 @@ namespace SimpleGOAP.KeyValueState
                 Facts[idx] = new Fact<TKey, TVal>(key, val);
         }
 
-        public void Set(IEnumerable<(TKey, TVal)> list)
-        {
-            foreach (var (key, val) in list)
-                Set(key, val);
-        }
-
         public void Set<T>(TKey key, Func<T, T> setter) where T : TVal =>
             Set(key, setter((T) Facts[indices[key]].Value));
 

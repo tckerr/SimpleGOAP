@@ -1,6 +1,13 @@
-# What is GOAP?
+# What is SimpleGOAP?
 
-Goal oriented action planning. There are some great resources on the topic [for your reading here](https://alumni.media.mit.edu/~jorkin/goap.html).
+SimpleGOAP is a C# implementation of goal oriented action planning. There are some great resources on the topic [for your reading here](https://alumni.media.mit.edu/~jorkin/goap.html). THe objectives of this repository are twofold:
+
+1. Provide a simple implementation for anyone to use across a variety of platforms like Unity, Godot, ASP.net, etc.
+2. Serve as a reference implementation for GOAP.
+
+# Installation
+
+TODO
 
 # Usage
 
