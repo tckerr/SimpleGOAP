@@ -4,7 +4,7 @@
         <RootNamespace>SimpleGOAP</RootNamespace>
         <AssemblyName>SimpleGOAP.Core</AssemblyName>
         <TargetFrameworks>net472;net48;net5.0;net5.0-windows;net6.0;net6.0-windows;netstandard1.0;netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard1.7;netstandard2.0;netstandard2.1</TargetFrameworks>
-        <PackageVersion>0.0.2</PackageVersion>
+        <PackageVersion>0.0.3</PackageVersion>
         <Title>SimpleGOAP.Core</Title>
         <Authors>Tom Kerr</Authors>
         <Description>SimpleGOAP is a C# implementation of goal oriented action planning.</Description>
