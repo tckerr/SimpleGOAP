@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <AssemblyName>SimpleGOAP.KeyValueState</AssemblyName>
+        <RootNamespace>SimpleGOAP.KeyValueState</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SimpleGOAP.Core\SimpleGOAP.Core.csproj" />
+    </ItemGroup>
+
+</Project>
