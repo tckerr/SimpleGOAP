@@ -1,6 +1,8 @@
 using System;
 using SimpleGOAP.KeyValueState;
 using SimpleGOAP.Tests.Data.ReadmeExample;
+using SimpleGOAP.Tests.Data.RiverCrossing;
+using SimpleGOAP.Tests.Data.Sudoku;
 using SimpleGOAP.Tests.Data.Traveler;
 using Xunit;
 using Xunit.Abstractions;
@@ -19,53 +21,15 @@ namespace SimpleGOAP.Tests
         [Fact]
         public void TestReadmeExample()
         {
-            var subject = new Planner<PotatoState>(
-                new PotatoStateCopier(),
-                new PotatoStateEqualityComparer()
-            );
-
-            Func<PotatoState, bool> goalEvaluator = state => state.BakedPotatoes >= 5;
-            Func<PotatoState,int> heuristicCost = state => 5 - state.BakedPotatoes;
-            var plan = subject.Execute(new PlanParameters<PotatoState>
-            {
-                StartingState = new PotatoState(),
-                Actions = new[]
-                {
-                    new LambdaAction<PotatoState>("Harvest potato", 1,
-                        state => state.RawPotatoes++),
-
-                    new LambdaAction<PotatoState>("Chop wood", 1,
-                        state => state.Wood++),
-
-                    new LambdaAction<PotatoState>("Make fire", 1,
-                        state => state.Wood >= 3,
-                        state =>
-                        {
-                            state.Fire = true;
-                            state.Wood -= 3;
-                        }),
-
-                    new LambdaAction<PotatoState>("Cook", 1,
-                        state => state.Fire && state.RawPotatoes > 0,
-                        state =>
-                        {
-                            state.RawPotatoes--;
-                            state.BakedPotatoes++;
-                        }),
-                },
-                HeuristicCost = heuristicCost,
-                GoalEvaluator = goalEvaluator
-            });
-
-            foreach (var step in plan.Steps)
+            var (args, planner) = PotatoStatePlannerFactory.Create();
+            foreach (var step in planner.Execute(args).Steps)
                 testOutputHelper.WriteLine(step.Action.Title);
         }
 
         [Fact]
         public void TestTravelerExample()
         {
-            var data = TravelerDataFactory.Create();
-            var subject = new KeyValuePlanner();
+            var (data, subject) = TravelerDataFactory.Create();
 
             var start = DateTime.Now;
             var plan = subject.Execute(data);
@@ -76,6 +40,29 @@ namespace SimpleGOAP.Tests
                 testOutputHelper.WriteLine($"\t{step.Action.Title}");
 
             Assert.True(plan.Success);
+        }
+        [Fact]
+        public void TestRiverCrossing()
+        {
+            // https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem
+            var (data, subject) = RiverCrossingPlannerFactory.Create();
+
+            var start = DateTime.Now;
+            var plan = subject.Execute(data);
+            var duration = DateTime.Now - start;
+
+            testOutputHelper.WriteLine($"Plan complete after {duration.TotalMilliseconds}ms:");
+            foreach (var step in plan.Steps)
+                testOutputHelper.WriteLine($"\t{step.Action.Title}");
+
+            Assert.True(plan.Success);
+            Assert.Equal("Move goat left", plan.Steps[0].Action.Title);
+            Assert.Equal("Return", plan.Steps[1].Action.Title);
+            Assert.Equal("Move cabbage left", plan.Steps[2].Action.Title);
+            Assert.Equal("Move goat right", plan.Steps[3].Action.Title);
+            Assert.Equal("Move wolf left", plan.Steps[4].Action.Title);
+            Assert.Equal("Return", plan.Steps[5].Action.Title);
+            Assert.Equal("Move goat left", plan.Steps[6].Action.Title);
         }
 
         [Fact]

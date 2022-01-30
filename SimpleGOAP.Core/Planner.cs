@@ -38,6 +38,8 @@ namespace SimpleGOAP
              */
             var heuristicCost = @params.HeuristicCost;
             var evalGoal = @params.GoalEvaluator;
+            var maxHScore = @params.MaxHeuristicCost;
+
             var start = new StateNode<T>(@params.StartingState, null, null);
             var openSet = CreateQueue(@params);
             openSet.Enqueue(start, 0);
@@ -61,7 +63,10 @@ namespace SimpleGOAP
                         continue;
 
                     distanceScores[neighbor.State] = distScore;
-                    var finalScore = distScore + heuristicCost(neighbor.State);
+                    var hCost = heuristicCost(neighbor.State);
+                    if(hCost > maxHScore)
+                        continue;
+                    var finalScore = distScore + hCost;
                     if (!openSet.Contains(neighbor))
                         openSet.Enqueue(neighbor, finalScore);
                 }

@@ -30,5 +30,9 @@ namespace SimpleGOAP
 
         /// <summary>The max queue size to use. Only relevant if <c>UseFastQueue</c> is set to true.</summary>
         public int QueueMaxSize { get; set; } = 100001;
+
+        /// <summary>If an action's heuristic cost exceeds this threshold, it will be ignored as
+        /// a possible future path. Ignored if null.</summary>
+        public int? MaxHeuristicCost { get; set; }
     }
 }

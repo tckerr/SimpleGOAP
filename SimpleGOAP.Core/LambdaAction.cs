@@ -47,6 +47,18 @@ namespace SimpleGOAP
             };
         }
 
+        public LambdaAction(string title, Func<T, bool> preconditionCheck, Action<T> action)
+        {
+            Title = title;
+            Cost = 0;
+            this.preconditionCheck = preconditionCheck;
+            this.action = state =>
+            {
+                action(state);
+                return state;
+            };
+        }
+
 
         public string Title { get; }
         public int Cost { get; }

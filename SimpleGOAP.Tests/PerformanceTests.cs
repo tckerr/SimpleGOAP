@@ -19,8 +19,7 @@ namespace SimpleGOAP.Tests
         [Fact]
         public void TestKeyValuePlannerPerformance()
         {
-            var data = TravelerDataFactory.Create();
-            var subject = new KeyValuePlanner();
+            var (data, subject) = TravelerDataFactory.Create();
 
             var start = DateTime.Now;
             var iterations = 300;
