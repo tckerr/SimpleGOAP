@@ -2,7 +2,6 @@ using System;
 using SimpleGOAP.KeyValueState;
 using SimpleGOAP.Tests.Data.ReadmeExample;
 using SimpleGOAP.Tests.Data.RiverCrossing;
-using SimpleGOAP.Tests.Data.Sudoku;
 using SimpleGOAP.Tests.Data.Traveler;
 using Xunit;
 using Xunit.Abstractions;
