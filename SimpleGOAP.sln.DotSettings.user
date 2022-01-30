@@ -1,8 +1,17 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2fb80ecd_002D1f88_002D45c1_002Daf06_002D7ddf408aac70/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestKeyValuePlanner" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PlannerTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PerformanceTests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/Users/tomkerr/.dotnet/sdk/6.0.101/MSBuild.dll</s:String>
+	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">1114112</s:Int64>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2fb80ecd_002D1f88_002D45c1_002Daf06_002D7ddf408aac70/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestKeyValuePlanner" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PlannerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PerformanceTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=da1feb5b_002D49ab_002D4426_002D8822_002D65aed6f6f108/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestWolfExample" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PlannerTests.TestRiverCrossing&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	
+	
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=GOAP/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
