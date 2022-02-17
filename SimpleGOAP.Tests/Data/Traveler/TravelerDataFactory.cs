@@ -7,7 +7,7 @@ namespace SimpleGOAP.Tests.Data.Traveler
 {
     public static class TravelerDataFactory
     {
-        public static PlanParameters<KeyValueState<string, object>> Create()
+        public static (PlanParameters<KeyValueState<string, object>>, Planner<KeyValueState<string, object>>) Create()
         {
             const int COST_OF_TOY = 10;
             const int SELL_VALUE_OF_TOY = 30;
@@ -68,13 +68,15 @@ namespace SimpleGOAP.Tests.Data.Traveler
                     state.Get<int>("fatigue") <= 0 ? 0 : 1,
                 }.Sum() * 300;
 
-            return new PlanParameters<KeyValueState<string, object>>
+            var args = new PlanParameters<KeyValueState<string, object>>
             {
                 Actions = actions,
                 StartingState = currentState,
                 HeuristicCost = HeuristicCost,
                 GoalEvaluator = s => HeuristicCost(s) <= 0,
             };
+
+            return (args, new KeyValuePlanner());
         }
     }
 }
