@@ -9,7 +9,12 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=da1feb5b_002D49ab_002D4426_002D8822_002D65aed6f6f108/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestWolfExample" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PlannerTests.TestRiverCrossing&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PlannerTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f555dcf4_002D2c3f_002D4644_002D9fe3_002D7ec0bb1bc5c2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PlannerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::9E80DA48-35E1-4454-A10D-725458CA83A5::.NETFramework,Version=v4.7.2::SimpleGOAP.Tests.PlannerTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	
