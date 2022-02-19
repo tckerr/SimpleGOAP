@@ -24,6 +24,7 @@ namespace SimpleGOAP.Tests.Data.DrumStacker
 
     public class DrumStack
     {
+        public DrumColor StackColor;
         public List<Drum> Drums = new List<Drum>
         {
             new Drum(),
@@ -37,10 +38,10 @@ namespace SimpleGOAP.Tests.Data.DrumStacker
     {
         public List<DrumStack> Stacks = new List<DrumStack>
         {
-            new DrumStack(),
-            new DrumStack(),
-            new DrumStack(),
-            new DrumStack(),
+            new DrumStack{StackColor = DrumColor.Blue},
+            new DrumStack{StackColor = DrumColor.Yellow},
+            new DrumStack{StackColor = DrumColor.Green},
+            new DrumStack{StackColor = DrumColor.Red},
         };
     }
 }

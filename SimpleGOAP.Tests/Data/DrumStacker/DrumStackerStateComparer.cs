@@ -18,6 +18,10 @@ namespace SimpleGOAP.Tests.Data.DrumStacker
             {
                 var xStack = x.Stacks[i];
                 var yStack = y.Stacks[i];
+
+                if (xStack.StackColor != yStack.StackColor)
+                    return false;
+
                 if (yStack.Drums.Count != xStack.Drums.Count)
                     return false;
 
@@ -50,18 +54,22 @@ namespace SimpleGOAP.Tests.Data.DrumStacker
                 a2 = Hash(obj.Stacks[0].Drums, 1),
                 a3 = Hash(obj.Stacks[0].Drums, 2),
                 a4 = Hash(obj.Stacks[0].Drums, 3),
+                a5 = obj.Stacks[0].StackColor,
                 b1 = Hash(obj.Stacks[1].Drums, 0),
                 b2 = Hash(obj.Stacks[1].Drums, 1),
                 b3 = Hash(obj.Stacks[1].Drums, 2),
                 b4 = Hash(obj.Stacks[1].Drums, 3),
+                b5 = obj.Stacks[1].StackColor,
                 c1 = Hash(obj.Stacks[2].Drums, 0),
                 c2 = Hash(obj.Stacks[2].Drums, 1),
                 c3 = Hash(obj.Stacks[2].Drums, 2),
                 c4 = Hash(obj.Stacks[2].Drums, 3),
+                c5 = obj.Stacks[2].StackColor,
                 d1 = Hash(obj.Stacks[3].Drums, 0),
                 d2 = Hash(obj.Stacks[3].Drums, 1),
                 d3 = Hash(obj.Stacks[3].Drums, 2),
                 d4 = Hash(obj.Stacks[3].Drums, 3),
+                d5 = obj.Stacks[3].StackColor,
             }.GetHashCode();
         }
     }

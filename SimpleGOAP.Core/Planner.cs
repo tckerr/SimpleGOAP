@@ -25,8 +25,8 @@ namespace SimpleGOAP
                 throw new ArgumentOutOfRangeException(nameof(@params.GoalEvaluator));
             if (@params.HeuristicCost == null)
                 throw new ArgumentOutOfRangeException(nameof(@params.HeuristicCost));
-            if (@params.Actions == null)
-                throw new ArgumentOutOfRangeException(nameof(@params.Actions));
+            if (@params.GetActions == null)
+                throw new ArgumentOutOfRangeException(nameof(@params.GetActions));
             if (@params.StartingState == null)
                 throw new ArgumentOutOfRangeException(nameof(@params.StartingState));
 
@@ -56,7 +56,7 @@ namespace SimpleGOAP
                 if (evalGoal(current.State))
                     return ReconstructPath(current, @params.StartingState);
 
-                foreach (var neighbor in GetNeighbors(current, @params.Actions))
+                foreach (var neighbor in GetNeighbors(current, @params.GetActions(current.State)))
                 {
                     var distScore = distanceScores[current.State] + neighbor.ActionCost;
                     if (distScore >= distanceScores[neighbor.State])
@@ -115,7 +115,7 @@ namespace SimpleGOAP
         {
             var currentState = start.State;
 
-            foreach (var action in actions.Where(a => a.IsLegalForState(currentState)))
+            foreach (var action in actions)
             {
                 var newState = action.TakeActionOnState(stateCopier.Copy(currentState));
 

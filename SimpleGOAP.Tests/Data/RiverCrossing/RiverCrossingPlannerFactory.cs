@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SimpleGOAP.Tests.Data.RiverCrossing
 {
     public static class RiverCrossingPlannerFactory
@@ -19,78 +21,105 @@ namespace SimpleGOAP.Tests.Data.RiverCrossing
                 return cost;
             }
 
+            var returnFarmer = new LambdaAction<RiverCrossingState>(
+                "Return",
+                state => state.Farmer = false
+            );
+
+            var moveCabbageLeft = new LambdaAction<RiverCrossingState>(
+                "Move cabbage left",
+                state =>
+                {
+                    state.Farmer = true;
+                    state.Cabbage = true;
+                }
+            );
+
+            var moveCabbageRight = new LambdaAction<RiverCrossingState>(
+                "Move cabbage right",
+                state =>
+                {
+                    state.Farmer = false;
+                    state.Cabbage = false;
+                }
+            );
+
+            var moveWolfLeft = new LambdaAction<RiverCrossingState>(
+                "Move wolf left",
+                state =>
+                {
+                    state.Farmer = true;
+                    state.Wolf = true;
+                }
+            );
+
+            var moveWolfRight = new LambdaAction<RiverCrossingState>(
+                "Move wolf right",
+                state =>
+                {
+                    state.Farmer = false;
+                    state.Wolf = false;
+                }
+            );
+
+            var moveGoatLeft = new LambdaAction<RiverCrossingState>(
+                "Move goat left",
+                state =>
+                {
+                    state.Farmer = true;
+                    state.Goat = true;
+                }
+            );
+
+            var moveGoatRight = new LambdaAction<RiverCrossingState>(
+                "Move goat right",
+                state =>
+                {
+                    state.Farmer = false;
+                    state.Goat = false;
+                }
+            );
+
+            var moveFarmerLeft = new LambdaAction<RiverCrossingState>(
+                "Move farmer left",
+                state => state.Farmer = true
+            );
+
             var data = new PlanParameters<RiverCrossingState>
             {
                 StartingState = new RiverCrossingState(),
                 MaxHeuristicCost = 50,
                 HeuristicCost = HeuristicCost,
                 GoalEvaluator = state => HeuristicCost(state) == 0,
-                Actions = new[]
+                GetActions = s =>
                 {
-                    new LambdaAction<RiverCrossingState>(
-                        "Move cabbage left",
-                        state => !state.Farmer && !state.Cabbage && state.Wolf != state.Goat,
-                        state =>
-                        {
-                            state.Farmer = true;
-                            state.Cabbage = true;
-                        }
-                    ),
-                    new LambdaAction<RiverCrossingState>(
-                        "Move cabbage right",
-                        state => state.Farmer && state.Cabbage,
-                        state =>
-                        {
-                            state.Farmer = false;
-                            state.Cabbage = false;
-                        }
-                    ),
-                    new LambdaAction<RiverCrossingState>(
-                        "Move wolf left",
-                        state => !state.Farmer && !state.Wolf,
-                        state =>
-                        {
-                            state.Farmer = true;
-                            state.Wolf = true;
-                        }
-                    ),
-                    new LambdaAction<RiverCrossingState>(
-                        "Move wolf right",
-                        state => state.Farmer && state.Wolf,
-                        state =>
-                        {
-                            state.Farmer = false;
-                            state.Wolf = false;
-                        }
-                    ),
-                    new LambdaAction<RiverCrossingState>(
-                        "Move goat left",
-                        state => !state.Farmer && !state.Goat,
-                        state =>
-                        {
-                            state.Farmer = true;
-                            state.Goat = true;
-                        }
-                    ),
-                    new LambdaAction<RiverCrossingState>(
-                        "Move goat right",
-                        state => state.Farmer && state.Goat,
-                        state =>
-                        {
-                            state.Farmer = false;
-                            state.Goat = false;
-                        }
-                    ),
-                    new LambdaAction<RiverCrossingState>(
-                        "Move farmer left",
-                        state => !state.Farmer,
-                        state => state.Farmer = true
-                    ),
-                    new LambdaAction<RiverCrossingState>(
-                        "Return",
-                        state => state.Farmer,
-                        state => state.Farmer = false
-                    ),
+                    var actions = new List<IAction<RiverCrossingState>>();
+
+                    if(s.Farmer)
+                        actions.Add(returnFarmer);
+
+                    if(!s.Farmer)
+                        actions.Add(moveFarmerLeft);
+
+                    if(!s.Farmer && !s.Cabbage && s.Wolf != s.Goat)
+                        actions.Add(moveCabbageLeft);
+
+                    if(s.Farmer && s.Cabbage)
+                        actions.Add(moveCabbageRight);
+
+                    if(!s.Farmer && !s.Wolf)
+                        actions.Add(moveWolfLeft);
+
+                    if(s.Farmer && s.Wolf)
+                        actions.Add(moveWolfRight);
+
+                    if(!s.Farmer && !s.Goat)
+                        actions.Add(moveGoatLeft);
+
+                    if(s.Farmer && s.Goat)
+                        actions.Add(moveGoatRight);
+
+                    return actions;
                 }
             };
 

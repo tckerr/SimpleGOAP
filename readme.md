@@ -17,7 +17,7 @@ SimpleGOAP is available on nuget.org through the package ID `SimpleGOAP.Core`. I
 There are 4 steps to using the GOAP planner:
 
 1. **Establishing state**: Define a "state" class that represents the parameters of your world state. Create an object of this type that represents the current world state.
-2. **Defining actions**: Create a list of actions that can be taken in order to modify state.
+2. **Defining actions**: Create a function which returns a list of actions that can be taken for a given state.
 3. **Setting a goal**: Write a function that evaluates whether any permutation of that state adequately satisfies your end goal.
 4. **Running the planner**: Pass all of the above into the planner to get a list of actions that can be taken to get from the current world state to a state that meets the goal. 
 
@@ -91,42 +91,52 @@ As outlined above, there are 4 actions the user can take: harvest potatoes, chop
 
 1. A name.
 2. An action cost. The algorithm prioritizes paths with lower costs.
-3. A precondition check, as a function of state, that must return `true` for it to be considered an eligible action.
-4. An "effect": a function that takes in a state object and returns a modified object. This represents the impact of taking that action.
+3. An "effect": a function that takes in a state object and returns a modified object. This represents the impact of taking that action.
 
+In code, our actions must implement `IAction<PotatoState>`. You can choose to implement this interface with your own classes, but for simplicity there is an existing implementation -- `LambdaAction<T>` -- which we can use for now. It takes all of the 3 parameters from above in its constructor. 
 
-In code, our actions must implement `IAction<PotatoState>`. You can choose to implement this interface with your own classes, but for simplicity there is an existing implementation -- `LambdaAction<T>` -- which we can use for now. It takes all of the 4 parameters from above in its constructor. 
-
-Note that some actions require precondition checks, while others do not. For now, we'll set all actions costs to 1:
+For now, we'll set all actions costs to 1:
 
 ```c#
-var actionsList = new[]
-{
-    new LambdaAction<PotatoState>("Harvest potato", 1, 
-        state => state.RawPotatoes++ // effect
-        ),
-    new LambdaAction<PotatoState>("Chop wood", 1, 
-        state => state.Wood++ // effect
-        ),
-    new LambdaAction<PotatoState>("Make fire", 1,
-        state => state.Wood >= 3, // precondition check
-        state => // effect
+var harvestPotato = new LambdaAction<PotatoState>(
+    "Harvest potato", 1, state => state.RawPotatoes++);
+    
+var chopWood = new LambdaAction<PotatoState>(
+    "Chop wood", 1, state => state.Wood++);
+    
+var makeFire = new LambdaAction<PotatoState>(
+    "Make fire", 1, state =>
         {
             state.Fire = true;
             state.Wood -= 3;
-        }),
-    new LambdaAction<PotatoState>("Cook", 1,
-        state => state.Fire && state.Potatoes > 0, // precondition check
-        state => // effect
+        });
+        
+var cookPotato = new LambdaAction<PotatoState>(
+    "Cook", 1, state =>
         {
             state.RawPotatoes--;
             state.BakedPotatoes++;
-        }),
-};
+        });
+```
+
+Now that we have actions defined, let's create our function that takes in a `PotatoState` and returns a list of eligible actions:
+
+```c#
+IEnumerable<IAction<PotatoState>> GetActions(PotatoState state)
+{
+    yield return harvestPotato;
+    yield return chopWood;
+
+    if (state.Wood >= 3)
+        yield return makeFire;
+
+    if (state.Fire && state.RawPotatoes > 0) 
+        yield return cookPotato;
+}
 ```
 
 ### Step 3: Setting the goal
-Let's define a function that will tell the engine whether we have reached our goal. In the case of our potato example, we simply want more that 5 baked potatoes:
+Now, we define a function that will tell the engine whether we have reached our goal. In the case of our potato example, we simply want more that 5 baked potatoes:
 
 ```c#
 Func<PotatoState, bool> goalEvaluator = (state) => state.BakedPotatoes >= 5;
@@ -153,7 +163,7 @@ var planner = new Planner<PotatoState>(
 var plan = planner.Execute(new PlanParameters<PotatoState>
 {
     StartingState = new PotatoState(),
-    Actions = actionList,
+    GetActions = GetActions,
     HeuristicCost = heuristicCost,
     GoalEvaluator = goalEvaluator
 });
@@ -229,29 +239,38 @@ public static class PotatoExample {
 
     public static void Main() {    
         var initialState = new PotatoState();    
-        var actionsList = new[]
-        {
-            new LambdaAction<PotatoState>("Harvest potato", 1, 
-                state => state.RawPotatoes++
-                ),
-            new LambdaAction<PotatoState>("Chop wood", 1, 
-                state => state.Wood++
-                ),
-            new LambdaAction<PotatoState>("Make fire", 1,
-                state => state.Wood >= 3, 
-                state => // effect
+        
+        var harvestPotato = new LambdaAction<PotatoState>(
+            "Harvest potato", 1, state => state.RawPotatoes++);
+            
+        var chopWood = new LambdaAction<PotatoState>(
+            "Chop wood", 1, state => state.Wood++);
+            
+        var makeFire = new LambdaAction<PotatoState>(
+            "Make fire", 1, state =>
                 {
                     state.Fire = true;
                     state.Wood -= 3;
-                }),
-            new LambdaAction<PotatoState>("Cook", 1,
-                state => state.Fire && state.Potatoes > 0,
-                state =>
+                });
+                
+        var cookPotato = new LambdaAction<PotatoState>(
+            "Cook", 1, state =>
                 {
                     state.RawPotatoes--;
                     state.BakedPotatoes++;
-                }),
-        };
+                });
+        
+        IEnumerable<IAction<PotatoState>> GetActions(PotatoState state)
+        {
+            yield return harvestPotato;
+            yield return chopWood;
+        
+            if (state.Wood >= 3)
+                yield return makeFire;
+        
+            if (state.Fire && state.RawPotatoes > 0) 
+                yield return cookPotato;
+        }
         
         var planner = new Planner<PotatoState>(
             new PotatoStateCopier(),
@@ -261,7 +280,7 @@ public static class PotatoExample {
         var plan = planner.Execute(new PlanParameters<PotatoState>
         {
             StartingState = initialState,
-            Actions = actionList,
+            GetActions = GetActions,
             HeuristicCost = heuristicCost,
             GoalEvaluator = goalEvaluator
         });
@@ -271,3 +290,11 @@ public static class PotatoExample {
     }
 }
 ```
+
+
+
+# Some comments on implementation
+
+Many implementations of GOAP prefer an expression of actions and state that can be driven from a configuration file. These are more or less static and limit your options. However the approach SimpleGOAP takes is code-first. For example, precondition checks have been eliminated in favor of a user-defined function that takes a state object and returns all possible actions. This allows for more dynamic action lists that morph as state changes.
+
+Note that you could build a more static system on top of SimpleGOAP. In the case of defining actions externally, you could simply have an implementation of `IAction<T>` which returns actions from your master list which pass a precondition check also defined in the config file.

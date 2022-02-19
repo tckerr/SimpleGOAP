@@ -70,7 +70,7 @@ namespace SimpleGOAP.Tests.Data.Traveler
 
             var args = new PlanParameters<KeyValueState<string, object>>
             {
-                Actions = actions,
+                GetActions = _ => actions,
                 StartingState = currentState,
                 HeuristicCost = HeuristicCost,
                 GoalEvaluator = s => HeuristicCost(s) <= 0,

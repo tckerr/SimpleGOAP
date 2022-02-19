@@ -75,10 +75,7 @@ namespace SimpleGOAP.Tests
             var plan = subject.Execute(data);
             var duration = DateTime.Now - start;
 
-            string render(Drum drum)
-            {
-                return $"[{drum.Color.ToString()[0]}{drum.Size.ToString()[0]}]";
-            }
+            string Render(Drum drum) => $"[{drum.Color.ToString()[0]}{drum.Size.ToString()[0]}]";
 
             testOutputHelper.WriteLine($"Plan complete after {duration.TotalMilliseconds}ms:");
             for (var i = 0; i < plan.Steps.Count; i++)
@@ -86,11 +83,10 @@ namespace SimpleGOAP.Tests
                 var step = plan.Steps[i];
                 testOutputHelper.WriteLine($"\t{i}: {step.Action.Title}");
 
-                var line1 = step.AfterState.Stacks.Select(stack => stack.Drums.Count > 0 ? render(stack.Drums[0]) : "[  ]");
-                var line2 = step.AfterState.Stacks.Select(stack => stack.Drums.Count > 1 ? render(stack.Drums[1]) : "[  ]");
-                var line3 = step.AfterState.Stacks.Select(stack => stack.Drums.Count > 2 ? render(stack.Drums[2]) : "[  ]");
-                var line4 = step.AfterState.Stacks.Select(stack => stack.Drums.Count > 3 ? render(stack.Drums[3]) : "[  ]");
-
+                var line1 = step.AfterState.Stacks.Select(stack => stack.Drums.Count > 0 ? Render(stack.Drums[0]) : "[  ]");
+                var line2 = step.AfterState.Stacks.Select(stack => stack.Drums.Count > 1 ? Render(stack.Drums[1]) : "[  ]");
+                var line3 = step.AfterState.Stacks.Select(stack => stack.Drums.Count > 2 ? Render(stack.Drums[2]) : "[  ]");
+                var line4 = step.AfterState.Stacks.Select(stack => stack.Drums.Count > 3 ? Render(stack.Drums[3]) : "[  ]");
 
                 testOutputHelper.WriteLine("BLU-YEL-GRE-RED-");
                 testOutputHelper.WriteLine(string.Join("", line4));
@@ -109,7 +105,7 @@ namespace SimpleGOAP.Tests
 
             var plan = subject.Execute(new PlanParameters<KeyValueState<string, object>>
             {
-                Actions = Array.Empty<IAction<KeyValueState<string, object>>>(),
+                GetActions = _ => Array.Empty<IAction<KeyValueState<string, object>>>(),
                 GoalEvaluator = g => false,
                 HeuristicCost = g => 0,
                 StartingState = new KeyValueState<string, object>()
