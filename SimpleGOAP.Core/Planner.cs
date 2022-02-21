@@ -46,24 +46,24 @@ namespace SimpleGOAP
 
             var distanceScores = new DefaultDictionary<T, int>(int.MaxValue, stateComparer)
             {
-                [start.State] = 0
+                [start.ResultingState] = 0
             };
 
             var iterations = 0;
             while (openSet.Any() && ++iterations < @params.MaxIterations)
             {
                 var current = openSet.Dequeue();
-                if (evalGoal(current.State))
+                if (evalGoal(current.ResultingState))
                     return ReconstructPath(current, @params.StartingState);
 
-                foreach (var neighbor in GetNeighbors(current, @params.GetActions(current.State)))
+                foreach (var neighbor in GetNeighbors(current, @params.GetActions(current.ResultingState)))
                 {
-                    var distScore = distanceScores[current.State] + neighbor.ActionCost;
-                    if (distScore >= distanceScores[neighbor.State])
+                    var distScore = distanceScores[current.ResultingState] + neighbor.GetActionCost(current.ResultingState);
+                    if (distScore >= distanceScores[neighbor.ResultingState])
                         continue;
 
-                    distanceScores[neighbor.State] = distScore;
-                    var hCost = heuristicCost(neighbor.State);
+                    distanceScores[neighbor.ResultingState] = distScore;
+                    var hCost = heuristicCost(neighbor.ResultingState);
                     if(hCost > maxHScore)
                         continue;
                     var finalScore = distScore + hCost;
@@ -104,8 +104,8 @@ namespace SimpleGOAP
                 {
                     Index = i,
                     Action = step.SourceAction,
-                    AfterState = step.State,
-                    BeforeState = step.Parent == null ? startingState : step.Parent.State
+                    AfterState = step.ResultingState,
+                    BeforeState = step.Parent == null ? startingState : step.Parent.ResultingState
                 }).ToList()
             };
         }
@@ -113,7 +113,7 @@ namespace SimpleGOAP
         private IEnumerable<StateNode<T>> GetNeighbors(StateNode<T> start,
             IEnumerable<IAction<T>> actions)
         {
-            var currentState = start.State;
+            var currentState = start.ResultingState;
 
             foreach (var action in actions)
             {

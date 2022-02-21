@@ -5,7 +5,8 @@ namespace SimpleGOAP.Tests.Data.Traveler.Actions
     public class EatAction : IAction<KeyValueState<string, object>>
     {
         public string Title => $"Eat food";
-        public int Cost => 10;
+        public int GetCost(KeyValueState<string, object> state) => 10;
+
         public bool IsLegalForState(KeyValueState<string, object> state)
         {
             return state.Check("myLocation", "Restaurant") && state.Get<int>("food") > 0;

@@ -18,7 +18,7 @@ namespace SimpleGOAP.Tests.Data.Traveler.Actions
         }
 
         public string Title => $"Drive to {location}";
-        public int Cost => 10;
+        public int GetCost(KeyValueState<string, object> state) => 10;
 
         private int GasSpentForDistance(KeyValueState<string, object> state)
         {

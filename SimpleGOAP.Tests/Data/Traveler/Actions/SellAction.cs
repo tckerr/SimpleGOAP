@@ -15,7 +15,8 @@ namespace SimpleGOAP.Tests.Data.Traveler.Actions
 
         public string Title => $"Sell 1 {itemName} for ${amountPerItem} on eBay";
 
-        public int Cost => 10;
+        public int GetCost(KeyValueState<string, object> state) => 10;
+
         public bool IsLegalForState(KeyValueState<string, object> state)
         {
             return state.Get<int>(itemName) > 0 && state.Check("myLocation", "Home");

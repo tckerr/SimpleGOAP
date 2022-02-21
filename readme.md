@@ -90,7 +90,7 @@ public class PotatoStateEqualityComparer : IEqualityComparer<PotatoState>
 As outlined above, there are 4 actions the user can take: harvest potatoes, chop wood, make fire, and cook potatoes. There are a few properties that define an action:
 
 1. A name.
-2. An action cost. The algorithm prioritizes paths with lower costs.
+2. An action cost. The algorithm prioritizes paths with lower costs. The cost can be dynamic depending on the state.
 3. An "effect": a function that takes in a state object and returns a modified object. This represents the impact of taking that action.
 
 In code, our actions must implement `IAction<PotatoState>`. You can choose to implement this interface with your own classes, but for simplicity there is an existing implementation -- `LambdaAction<T>` -- which we can use for now. It takes all of the 3 parameters from above in its constructor. 

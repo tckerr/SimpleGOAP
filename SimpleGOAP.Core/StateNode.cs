@@ -6,15 +6,15 @@ namespace SimpleGOAP
     {
         internal IAction<T> SourceAction;
         internal StateNode<T> Parent;
-        internal T State;
+        internal T ResultingState;
 
         internal StateNode(T state, StateNode<T> parent, IAction<T> sourceAction)
         {
             SourceAction = sourceAction;
             Parent = parent;
-            State = state;
+            ResultingState = state;
         }
 
-        internal int ActionCost => SourceAction?.Cost ?? 0;
+        internal int GetActionCost(T state) => SourceAction?.GetCost(state) ?? 0;
     }
 }
