@@ -44,7 +44,7 @@ namespace SimpleGOAP
             var openSet = CreateQueue(@params);
             openSet.Enqueue(start, 0);
 
-            var distanceScores = new DefaultDict<T, int>(int.MaxValue, stateComparer)
+            var distanceScores = new DefaultDictionary<T, int>(int.MaxValue, stateComparer)
             {
                 [start.State] = 0
             };

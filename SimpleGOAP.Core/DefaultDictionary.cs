@@ -2,11 +2,11 @@
 
 namespace SimpleGOAP
 {
-    internal class DefaultDict<TKey, TValue> : Dictionary<TKey, TValue>
+    internal class DefaultDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     {
         private readonly TValue defaultValue;
 
-        internal DefaultDict(TValue defaultValue, IEqualityComparer<TKey> comp) : base(comp)
+        internal DefaultDictionary(TValue defaultValue, IEqualityComparer<TKey> comp) : base(comp)
         {
             this.defaultValue = defaultValue;
         }
